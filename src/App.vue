@@ -1,40 +1,62 @@
 <template>
   <v-app>
-    <v-app-bar
+    <v-navigation-drawer
+      v-model="drawer"
       app
-      color="primary"
-      dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
+      <v-card
+        class="mx-auto"
+        max-width="434"
+        tile
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+        <v-img
+          height="100%"
+          src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+        >
+          <v-row
+            align="end"
+            class="fill-height"
+          >
+            <v-col class="py-0">
+              <v-list-item
+                color="rgba(0, 0, 0, .4)"
+                dark
+              >
+                <v-list-item-content>
+                  <v-list-item-title class="text-h6">
+                    Regy Joyce
+                  </v-list-item-title>
+                  <v-list-item-subtitle>Data Architect</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+          </v-row>
+        </v-img>
+      </v-card>
+      <v-list
+        dense
+        rounded
+      >
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>BIGGY</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -49,7 +71,15 @@ export default {
   name: 'App',
 
   data: () => ({
-    //
+    drawer: null,
+    items: [
+      { title: 'Dashboard', icon: 'mdi-chart-line' },
+      { title: 'Utilisateurs', icon: 'mdi-account-multiple' },
+      { title: 'Projets', icon: 'mdi-folder-multiple' },
+      { title: 'Postes', icon: 'mdi-headset' },
+      { title: 'Fiches', icon: 'mdi-table' },
+      { title: 'Ecoutes', icon: 'mdi-ear-hearing' }
+    ]
   })
 }
 </script>
