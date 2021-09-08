@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '../views/Reporting.vue';
-import Account from '../views/Accounts.vue';
-import Listening from '../views/Listenings.vue';
-import Post from '../views/Posts.vue';
-import Project from '../views/Projects.vue';
-import Sheet from '../views/Sheets.vue';
+import Dashboard from '../views/Reporting.vue'
+// import Account from '../views/Accounts.vue';
+import Listening from '../views/Listenings.vue'
+import Post from '../views/Posts.vue'
+import Project from '../views/Projects.vue'
+import Sheet from '../views/Sheets.vue'
 
 Vue.use(VueRouter)
 

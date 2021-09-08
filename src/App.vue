@@ -26,7 +26,7 @@
                   <v-list-item-title class="text-h6">
                     Regy Joyce
                   </v-list-item-title>
-                  <v-list-item-subtitle>Data Architect</v-list-item-subtitle>
+                  <v-list-item-subtitle>Administrateur</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -70,16 +70,18 @@
 export default {
   name: 'App',
 
-  data: () => ({
-    drawer: null,
-    items: [
-      { title: 'Dashboard', icon: 'mdi-chart-line' },
-      { title: 'Utilisateurs', icon: 'mdi-account-multiple' },
-      { title: 'Projets', icon: 'mdi-folder-multiple' },
-      { title: 'Postes', icon: 'mdi-headset' },
-      { title: 'Fiches', icon: 'mdi-table' },
-      { title: 'Ecoutes', icon: 'mdi-ear-hearing' }
-    ]
-  })
+  data () {
+    return {
+      drawer: null,
+      items: [
+        { title: 'Dashboard', icon: 'mdi-chart-line' },
+        { title: 'Utilisateurs', icon: 'mdi-account-multiple' },
+        { title: 'Projets', icon: 'mdi-folder-multiple' },
+        { title: 'Postes', icon: 'mdi-headset' },
+        { title: 'Fiches', icon: 'mdi-table' },
+        { title: 'Ecoutes', icon: 'mdi-ear-hearing' }
+      ]
+    }
+  }
 }
 </script>
