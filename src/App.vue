@@ -41,6 +41,7 @@
           v-for="item in items"
           :key="item.title"
           link
+          :to="item.path"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -74,12 +75,12 @@ export default {
     return {
       drawer: null,
       items: [
-        { title: 'Dashboard', icon: 'mdi-chart-line' },
-        { title: 'Utilisateurs', icon: 'mdi-account-multiple' },
-        { title: 'Projets', icon: 'mdi-folder-multiple' },
-        { title: 'Postes', icon: 'mdi-headset' },
-        { title: 'Fiches', icon: 'mdi-table' },
-        { title: 'Ecoutes', icon: 'mdi-ear-hearing' }
+        { title: 'Dashboard', icon: 'mdi-chart-line', path:"/"},
+        { title: 'Utilisateurs', icon: 'mdi-account-multiple', path:"/utilisateurs" },
+        { title: 'Projets', icon: 'mdi-folder-multiple', path:":projets" },
+        { title: 'Postes', icon: 'mdi-headset', path:"/postes" },
+        { title: 'Fiches', icon: 'mdi-table', path:"/fiches" },
+        { title: 'Ecoutes', icon: 'mdi-ear-hearing', path:"/ecoutes" }
       ]
     }
   }

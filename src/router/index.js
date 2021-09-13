@@ -1,24 +1,24 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Dashboard from '../views/Reporting.vue'
-// import Account from '../views/Accounts.vue';
-import Listening from '../views/Listenings.vue'
-import Post from '../views/Posts.vue'
-import Project from '../views/Projects.vue'
-import Sheet from '../views/Sheets.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Dashboard from '../views/Reporting.vue';
+import Users from '../views/Users.vue';
+import Listening from '../views/Listenings.vue';
+import Post from '../views/Posts.vue';
+import Project from '../views/Projects.vue';
+import Sheet from '../views/Sheets.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
-  /* {
-    path: '/',
-    name: 'Account',
-    component: Account
-  }, */
   {
     path: '/',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/utilisateurs',
+    name: 'Users',
+    component: Users
   },
   {
     path: '/postes',
@@ -39,12 +39,7 @@ const routes = [
     path: '/projets',
     name: 'Project',
     component: Project
-  }/* ,
-  {
-    path: '/',
-    name: 'Dashboard',
-    component: Dashboard
-  }, */
+  }
 ]
 
 const router = new VueRouter({
