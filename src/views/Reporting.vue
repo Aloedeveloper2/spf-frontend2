@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Details from '../components/Dashboard-details.vue'
+import Details from '../components/dashboard/Dashboard-details';
 export default {
   name: 'Reporting',
   components: { Details }

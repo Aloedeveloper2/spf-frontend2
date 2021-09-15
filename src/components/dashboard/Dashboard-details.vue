@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import Card from '../components/Dashboard-card.vue'
+import Card from './Dashboard-card.vue'
 export default {
     name: "Details",
     components: {Card}
