@@ -158,6 +158,7 @@
 </template>
 
 <script>
+  import Form from './forms/NewUser-form.vue';
   export default {
     data: () => ({
       dialog: false,
@@ -189,7 +190,7 @@
         type: ''
       },
     }),
-
+    components: { Form },
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'Nouvel utilisateur' : 'Modifier un utilisateur';
