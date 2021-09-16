@@ -103,12 +103,14 @@
     </template>
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon
+        small
         class="mr-2"
         @click="deleteItem(item)"
       >
         mdi-delete
       </v-icon>
       <v-icon
+        small
         @click="editItem(item)"
       >
         mdi-cog
@@ -192,51 +194,41 @@
             post: {
               name: "Poste2"
             },
-            hour: '',
-            duration: '',
-            note: '',
-            observation: '',
-            action: '',
+            hour: '10h23',
+            duration: '5 m 28 s',
+            note: '3,75/5',
+            observation: 'appel moyen on a un souci avec le langage un peu trop familier',
+            action: 'emettre des strategies qui permettront au télèvendeur de rester professionnel quelqu\'en soit celui dont on a au bout du fil .',
           },
           {
             post: {
               name: "Poste3"
             },
-            hour: '',
-            duration: '',
-            note: '',
-            observation: '',
-            action: '',
+            hour: '11 hrs 25',
+            duration: '2 m 22 s',
+            note: '2,5/5',
+            observation: 'appel moyen on a un souci avec le langage un peu trop familier ',
+            action: 'Aucune action à effectuer',
           },
           {
             post: {
               name: "Poste4"
             },
-            hour: '',
-            duration: '',
-            note: '',
-            observation: '',
-            action: '',
+            hour: '15h29',
+            duration: '3 minutes 41',
+            note: '4/5',
+            observation: 'très bon appel best sav auprés d\'un client qui a eu un souci avec la plateforme .',
+            action: 'Aucune action à effectuer',
           },
           {
             post: {
               name: "Poste5"
             },
-            hour: '',
-            duration: '',
-            note: '',
-            observation: '',
-            action: '',
-          },
-          {
-            post: {
-              name: "Poste6"
-            },
-            hour: '',
-            duration: '',
-            note: '',
-            observation: '',
-            action: '',
+            hour: '16h19',
+            duration: '3 minutes',
+            note: '3,75/5',
+            observation: 'bon sav une très bonne fidelisation de la clientèle suivi du porte feuille client.',
+            action: 'Aucune action à effectuer',
           }
         ]
       },
