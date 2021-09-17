@@ -136,14 +136,14 @@
       search: '',
       headers: [
         {
-          text: 'Poste',
+          text: 'Postes',
           value: 'post.name'
         },
-        { text: 'Heure', value: 'hour' },
-        { text: 'Durée', value: 'duration' },
-        { text: 'Note', value: 'note' },
-        { text: 'Observation', value: 'observation' },
-        { text: 'Action', value: 'action' },
+        { text: 'Heures', value: 'hour' },
+        { text: 'Durées', value: 'duration' },
+        { text: 'Notes', value: 'note' },
+        { text: 'Observations', value: 'observation' },
+        { text: 'Corrections', value: 'action' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
       posts: [],
