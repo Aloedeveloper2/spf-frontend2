@@ -109,7 +109,7 @@
         mdi-delete
       </v-icon>
       <v-icon
-        @click="editItem(item)"
+        @click="goToDetails(item)"
       >
         mdi-cog
       </v-icon>
@@ -172,6 +172,7 @@
       initialize () {
         this.posts = [
           {
+            id: "000",
             post: 'Poste1',
             account: {
               name: "Andréa",
@@ -179,6 +180,7 @@
             },
           },
           {
+            id: "001",
             post: 'Poste2',
             account: {
               name: "Patrick",
@@ -186,6 +188,7 @@
             },
           },
           {
+            id: "002",
             post: 'Poste3',
             account: {
               name: "Boris",
@@ -193,6 +196,7 @@
             },
           },
           {
+            id: "003",
             post: 'Poste4',
             account: {
               name: "Emmanuel",
@@ -200,6 +204,7 @@
             }
           },
           {
+            id: "004",
             post: 'Poste5',
             account: {
               name: "Nicolas",
@@ -207,6 +212,7 @@
             }
           },
           {
+            id: "005",
             post: 'Poste6',
             account: {
               name: "Liliane",
@@ -216,10 +222,8 @@
         ]
       },
 
-      editItem (item) {
-        this.editedIndex = this.posts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
+      goToDetails (item) {
+        this.$router.push(`/postes/${item.id}`);
       },
 
       deleteItem (item) {

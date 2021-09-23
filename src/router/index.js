@@ -4,6 +4,7 @@ import Dashboard from '../views/Reporting.vue';
 import Users from '../views/Users.vue';
 import Listening from '../views/Listenings.vue';
 import Post from '../views/Posts.vue';
+import PostDetails from '../views/Post-details.vue';
 import Project from '../views/Projects.vue';
 import Sheet from '../views/Sheets.vue';
 
@@ -24,6 +25,11 @@ const routes = [
     path: '/postes',
     name: 'Post',
     component: Post
+  },
+  {
+    path: '/postes/:id',
+    name: 'Post-details',
+    component: PostDetails
   },
   {
     path: '/ecoutes',
