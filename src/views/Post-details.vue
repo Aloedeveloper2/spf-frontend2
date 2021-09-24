@@ -11,7 +11,7 @@
             <v-icon left>
                 mdi-account
             </v-icon>
-            Reattributions
+            Reattribution
         </v-tab>
         <v-tab>
             <v-icon left>
@@ -21,42 +21,23 @@
         </v-tab>
 
         <v-tab-item>
-            <v-card flat>
-                <v-card-text>
-                    <p>
-                        Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.
-                    </p>
-
-                    <p>
-                     Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Aliquam lobortis. Aliquam lobortis. Suspendisse non nisl sit amet velit hendrerit rutrum.
-                    </p>
-
-                    <p class="mb-0">
-                        Phasellus dolor. Fusce neque. Fusce fermentum odio nec arcu. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus blandit leo ut odio.
-                    </p>
-                </v-card-text>
-            </v-card>
+            <Users />
         </v-tab-item>
         <v-tab-item>
-            <v-card flat>
-                <v-card-text>
-                    <p>
-                        Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                    </p>
-
-                    <p class="mb-0">
-                        Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam at tortor in tellus interdum sagittis.
-                    </p>
-                </v-card-text>
-            </v-card>
+            <PostProjects />
         </v-tab-item>
     </v-tabs>
   </v-card>
 </template>
 
 <script>
+    import Users from '@/components/User-bottom-sheet.vue';
+    import PostProjects from '@/components/Post-projects.vue';
     export default {
         name: "Post-details",
+        components: {
+            Users, PostProjects
+        },
         mounted(){
             console.log(this.$route.params.id);
         }

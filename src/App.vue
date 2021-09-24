@@ -35,7 +35,7 @@
       </v-card>
       <v-list
         dense
-        rounded
+        shaped
       >
         <v-list-item
           v-for="item in items"
@@ -77,7 +77,7 @@ export default {
       items: [
         { title: 'Dashboard', icon: 'mdi-chart-line', path:"/"},
         { title: 'Utilisateurs', icon: 'mdi-account-multiple', path:"/utilisateurs" },
-        { title: 'Projets', icon: 'mdi-folder-multiple', path:"projets" },
+        { title: 'Projets', icon: 'mdi-folder-multiple', path:"/projets" },
         { title: 'Postes', icon: 'mdi-headset', path:"/postes" },
         { title: 'Fiches', icon: 'mdi-table', path:"/fiches" },
         { title: 'Ecoutes', icon: 'mdi-ear-hearing', path:"/ecoutes" }
