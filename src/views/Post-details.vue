@@ -9,22 +9,22 @@
     <v-tabs centered>
         <v-tab>
             <v-icon left>
-                mdi-account
-            </v-icon>
-            Reattribution
-        </v-tab>
-        <v-tab>
-            <v-icon left>
                 mdi-folder
             </v-icon>
             Projets
         </v-tab>
+        <v-tab>
+            <v-icon left>
+                mdi-account
+            </v-icon>
+            Reattribution
+        </v-tab>
 
         <v-tab-item>
-            <Users />
+            <PostProjects />
         </v-tab-item>
         <v-tab-item>
-            <PostProjects />
+            <Users />
         </v-tab-item>
     </v-tabs>
   </v-card>
