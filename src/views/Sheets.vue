@@ -12,7 +12,7 @@
       <template v-slot:header>
         <v-toolbar
           dark
-          color="pink darken-3"
+          color="red darken-3"
           class="mb-1"
         >
           <v-text-field
@@ -43,7 +43,7 @@
               <v-btn
                 large
                 depressed
-                color="pink"
+                color="red"
                 :value="false"
               >
                 <v-icon>mdi-arrow-up</v-icon>
@@ -51,7 +51,7 @@
               <v-btn
                 large
                 depressed
-                color="pink"
+                color="red"
                 :value="true"
               >
                 <v-icon>mdi-arrow-down</v-icon>
@@ -111,7 +111,7 @@
               <v-btn
                 dark
                 text
-                color="pink"
+                color="red"
                 class="ml-2"
                 v-bind="attrs"
                 v-on="on"
@@ -142,7 +142,7 @@
           <v-btn
             fab
             dark
-            color="pink darken-3"
+            color="red darken-3"
             class="mr-1"
             @click="formerPage"
           >
@@ -151,7 +151,7 @@
           <v-btn
             fab
             dark
-            color="pink darken-3"
+            color="red darken-3"
             class="ml-1"
             @click="nextPage"
           >

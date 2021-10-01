@@ -11,11 +11,7 @@
                             >
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
-                            <v-btn
-                                icon
-                            >
-                                <v-icon>mdi-contacts</v-icon>
-                            </v-btn>
+                            <PostContacts />
                         </v-card-actions>
                     </div>
                 </div>
@@ -25,6 +21,7 @@
 </template>
 
 <script>
+import PostContacts from '@/components/Post-contacts.vue';
     export default{
         name: "Post-project",
         data(){
@@ -36,7 +33,8 @@
                     "CUK(Kribi)"
                 ]
             }
-        }
+        },
+        components: { PostContacts }
     }
 </script>
 
