@@ -37,9 +37,6 @@
         name: "Post-details",
         components: {
             Users, PostProjects
-        },
-        mounted(){
-            console.log(this.$route.params.id);
         }
     }
 </script>
