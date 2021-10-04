@@ -52,8 +52,8 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
+                    md="6"
                   >
                     <v-text-field
                       v-model="editedItem.name"
@@ -62,8 +62,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
+                    md="6"
                   >
                     <v-text-field
                       v-model="editedItem.surname"
@@ -72,8 +72,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
+                    md="6"
                   >
                     <v-text-field
                       v-model="editedItem.phone"
@@ -82,13 +82,14 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
+                    md="6"
                   >
-                    <v-text-field
+                    <v-select
                       v-model="editedItem.type"
+                      :items="items"
                       label="Type"
-                    ></v-text-field>
+                    ></v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -118,7 +119,7 @@
 <!-- dialog delete start -->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Veuillez-confirmer votre opération?</v-card-title>
+            <v-card-title class="text-h5">Veuillez-confirmer votre opération</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
@@ -170,12 +171,14 @@
 </template>
 
 <script>
+  import axios from 'axios';
   export default {
     data: () => ({
       dialog: false,
       dialogDelete: false,
-      loading: false,
+      loading: true,
       search: '',
+      items: ['Télévendeur', 'Administrateur'],
       headers: [
         {
           text: 'Noms',
@@ -223,50 +226,12 @@
 
     methods: {
       initialize () {
-        this.lists = [
-          {
-            name: 'Frozen Yogurt',
-            surname: 159,
-            phone: 6.0,
-            type: 24
-          },
-          {
-            name: 'Ice cream sandwich',
-            surname: 237,
-            phone: 9.0,
-            type: 37
-          },
-          {
-            name: 'Eclair',
-            surname: 262,
-            phone: 16.0,
-            type: 23
-          },
-          {
-            name: 'Cupcake',
-            surname: 305,
-            phone: 3.7,
-            type: 67
-          },
-          {
-            name: 'Gingerbread',
-            surname: 356,
-            phone: 16.0,
-            type: 49
-          },
-          {
-            name: 'Jelly bean',
-            surname: 375,
-            phone: 0.0,
-            type: 94
-          },
-          {
-            name: 'Lollipop',
-            surname: 392,
-            phone: 0.2,
-            type: 98
-          }
-        ]
+        axios.get('http://localhost:5000/user').then(response =>{
+          this.lists = response.data;
+          this.loading = false;
+        }).catch(error =>{
+          console.log(error);
+        })
       },
 
       editItem (item) {
@@ -282,8 +247,13 @@
       },
 
       deleteItemConfirm () {
-        this.lists.splice(this.editedIndex, 1)
-        this.closeDelete()
+        axios.delete(`http://localhost:5000/user/${this.editedItem.id}`).then(()=>{
+          this.lists.splice(this.editedIndex, 1)
+          this.closeDelete()
+        }).catch(error =>{
+          console.log(error);
+          this.closeDelete();
+        })
       },
 
       close () {
@@ -304,11 +274,20 @@
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.lists[this.editedIndex], this.editedItem)
+          axios.put(`http://localhost:5000/user/${this.editedItem.id}`, {data: this.editedItem}).then(()=>{
+            Object.assign(this.lists[this.editedIndex], this.editedItem)
+            this.close();
+          }).catch(error=>{
+            console.log(error);
+          })
         } else {
-          this.lists.push(this.editedItem)
+          axios.post('http://localhost:5000/user/register', {data: this.editedItem}).then(() =>{
+            this.lists.push(this.editedItem);
+            this.close();
+          }).catch(error =>{
+            console.log(error);
+          })
         }
-        this.close()
       },
     },
   }
