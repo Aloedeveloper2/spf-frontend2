@@ -34,8 +34,8 @@
             <v-list id="list">
                 <v-subheader>Choisissez un utilisateur</v-subheader>
                 <v-list-item
-                    v-for="tile in tiles"
-                    :key="tile.title"
+                    v-for="user in users"
+                    :key="user.id"
                     @click="sheet = false"
                 >
                     <v-list-item-avatar>
@@ -51,7 +51,7 @@
                             </v-icon>
                         </v-avatar>
                     </v-list-item-avatar>
-                    <v-list-item-title>{{ tile.title }}</v-list-item-title>
+                    <v-list-item-title>{{ user.name }}</v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-bottom-sheet>
@@ -59,29 +59,21 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name:'Users',
         data(){
             return{
                 sheet: false,
-                tiles: [
-                    { title: 'Utilisateur 1' },
-                    { title: 'Utilisateur 2' },
-                    { title: 'Utilisateur 3' },
-                    { title: 'Utilisateur 4' },
-                    { title: 'Utilisateur 5' },
-                    { title: 'Utilisateur 6' },
-                    { title: 'Utilisateur 7' },
-                    { title: 'Utilisateur 8' },
-                    { title: 'Utilisateur 9' },
-                    { title: 'Utilisateur 10' },
-                    { title: 'Utilisateur 11' },
-                    { title: 'Utilisateur 12' },
-                    { title: 'Utilisateur 13' },
-                    { title: 'Utilisateur 14' },
-                    { title: 'Utilisateur 15' }
-                ],
+                users: [],
             }
+        },
+        mounted(){
+            axios.get(`http://localhost:5000/user/telemarketer`).then(response =>{
+                this.users = response.data;
+            }).catch(error =>{
+                console.log(error);
+            })
         }
     }
 </script>

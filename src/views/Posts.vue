@@ -2,7 +2,6 @@
   <v-data-table
     :headers="headers"
     :items="posts"
-    sort-by="name"
     :search="search"
     :loading="loading"
     loading-text="Chargement... Veuillez patienter"
@@ -56,7 +55,7 @@
                     md="12"
                   >
                     <v-text-field
-                      v-model="editedItem.post"
+                      v-model="editedItem.name"
                       label="Poste"
                     ></v-text-field>
                   </v-col>
@@ -86,9 +85,9 @@
 <!-- user form end -->
 
 <!-- dialog delete start -->
-        <v-dialog v-model="dialogDelete" max-width="500px">
+        <!-- <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Veuillez-confirmer votre opération?</v-card-title>
+            <v-card-title class="text-h5">Veuillez-confirmer votre opération</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
@@ -96,13 +95,13 @@
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
-        </v-dialog>
+        </v-dialog> -->
 <!-- dialog delete end -->
 
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-tooltip left>
+      <!-- <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
           <v-icon
             class="mr-2"
@@ -114,7 +113,7 @@
           </v-icon>
         </template>
         <span>Supprimer</span>
-      </v-tooltip>
+      </v-tooltip> -->
       <v-tooltip right>
         <template v-slot:activator="{ on, attrs }">
           <v-icon
@@ -140,16 +139,17 @@
 </template>
 
 <script>
+  import axios from 'axios';
   export default {
     data: () => ({
       dialog: false,
-      dialogDelete: false,
-      loading: false,
+      // dialogDelete: false,
+      loading: true,
       search: '',
       headers: [
         {
           text: 'Poste',
-          value: 'post'
+          value: 'name'
         },
         { text: 'Télévendeur', value: 'account.name' },
         { text: 'Téléphone', value: 'account.phone' },
@@ -159,13 +159,9 @@
       editedIndex: -1,
       editedItem: {
         name: '',
-        surname: '',
-        phone: '',
       },
       defaultItem: {
         name: '',
-        surname: '',
-        phone: '',
       },
     }),
 
@@ -184,72 +180,33 @@
 
     methods: {
       initialize () {
-        this.posts = [
-          {
-            id: "000",
-            post: 'Poste1',
-            account: {
-              name: "Andréa",
-              phone: "677790023"
-            },
-          },
-          {
-            id: "001",
-            post: 'Poste2',
-            account: {
-              name: "Patrick",
-              phone: "693324545"
-            },
-          },
-          {
-            id: "002",
-            post: 'Poste3',
-            account: {
-              name: "Boris",
-              phone: "680002365"
-            },
-          },
-          {
-            id: "003",
-            post: 'Poste4',
-            account: {
-              name: "Emmanuel",
-              phone: "674253469"
-            }
-          },
-          {
-            id: "004",
-            post: 'Poste5',
-            account: {
-              name: "Nicolas",
-              phone: "693946792"
-            }
-          },
-          {
-            id: "005",
-            post: 'Poste6',
-            account: {
-              name: "Liliane",
-              phone: "690653512"
-            }
-          }
-        ]
+        axios.get('http://localhost:5000/post').then(response =>{
+          this.posts = response.data;
+          this.loading = false;
+        }).catch(error =>{
+          console.log(error);
+        })
       },
 
       goToDetails (item) {
         this.$router.push(`/postes/${item.id}`);
       },
 
-      deleteItem (item) {
+      /* deleteItem (item) {
         this.editedIndex = this.posts.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
-      },
+      }, */
 
-      deleteItemConfirm () {
-        this.posts.splice(this.editedIndex, 1)
-        this.closeDelete()
-      },
+      /* deleteItemConfirm () {
+        axios.delete(`http://localhost:5000/post/${this.editedItem.id}`).then(()=>{
+          this.lists.splice(this.editedIndex, 1)
+          this.closeDelete()
+        }).catch(error =>{
+          console.log(error);
+          this.closeDelete();
+        })
+      }, */
 
       close () {
         this.dialog = false
@@ -259,21 +216,22 @@
         })
       },
 
-      closeDelete () {
+      /* closeDelete () {
         this.dialogDelete = false
         this.$nextTick(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
         })
-      },
+      }, */
 
       save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.posts[this.editedIndex], this.editedItem)
-        } else {
-          this.posts.push(this.editedItem)
-        }
-        this.close()
+        axios.post('http://localhost:5000/post', {data: this.editedItem}).then((response) =>{
+            this.editedItem = response.data;
+            this.posts.push(this.editedItem);
+            this.close();
+          }).catch(error =>{
+            console.log(error);
+          })
       },
     },
   }
