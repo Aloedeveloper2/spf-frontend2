@@ -102,17 +102,31 @@
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-icon
-        class="mr-2"
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
-      <v-icon
-        @click="goToDetails(item)"
-      >
-        mdi-cog
-      </v-icon>
+      <v-tooltip left>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            class="mr-2"
+            @click="deleteItem(item)"
+            v-bind="attrs"
+            v-on="on"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+        <span>Supprimer</span>
+      </v-tooltip>
+      <v-tooltip right>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            @click="goToDetails(item)"
+            v-bind="attrs"
+            v-on="on"
+          >
+            mdi-cog
+          </v-icon>
+        </template>
+        <span>Options</span>
+      </v-tooltip>
     </template>
     <template v-slot:no-data>
       <v-btn
