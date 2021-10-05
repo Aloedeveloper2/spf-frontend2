@@ -1,15 +1,15 @@
 <template>
     <v-container>
         <v-row>
-            <v-col v-for="(item, i) in items" :key="i">
-                <ProjectCard :item="item" />
+            <v-col v-for="(project, i) in projects" :key="i" cols="auto">
+                <ProjectCard :project="project" />
             </v-col>
         </v-row>
         <v-row justify="center">
             <v-dialog
-            v-model="dialog"
-            persistent
-            max-width="600px"
+                v-model="dialog"
+                persistent
+                max-width="600px"
             >
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -39,6 +39,7 @@
                                     sm="6"
                                 >
                                     <v-text-field
+                                    v-model="formValues.name"
                                     clearable
                                     dense
                                     outlined
@@ -51,6 +52,7 @@
                                     sm="6"
                                 >
                                     <v-text-field
+                                    v-model="formValues.path"
                                     clearable
                                     dense
                                     outlined
@@ -73,7 +75,7 @@
                     <v-btn
                         color="blue darken-1"
                         text
-                        @click="dialog = false"
+                        @click="save"
                     >
                         Enregistrer
                     </v-btn>
@@ -87,6 +89,8 @@
 <script>
     import '../style/style.css';
     import ProjectCard from '../components/Project-card.vue';
+    import config from '../config/address';
+    import axios from 'axios';
     export default {
         name: 'Project',
         data(){
@@ -94,23 +98,32 @@
                 color: '',
                 dialog: false,
                 file: null,
-                items: [
-                    {
-                        title: 'CUB (Bertoua)',
-                        path: "https://go.ikwen.com/bertoua"
-                    },
-                    {
-                        title: 'Tchopetyamo',
-                        path: "https://www.tchopetyamo.com"
-                    },
-                    {
-                        title: 'Femme fatale',
-                        path: "http://www.femmefataleshopping.com"
-                    },
-                ]
+                formValues: {
+                    name: '',
+                    path: ''
+                },
+                projects: []
             }
         },
-        components: { ProjectCard }
+        components: { ProjectCard },
+        mounted(){
+            axios.get(`${config.server}/project`).then(response =>{
+                this.projects = response.data;
+            }).catch(error =>{
+                console.log(error);
+            })
+        },
+        methods: {
+            save(){
+                axios.post(`${config.server}/project`, {data: this.formValues}).then(response =>{
+                    console.log(response.data)
+                    this.projects.push(response.data);
+                    this.dialog = false;
+                }).catch(error =>{
+                    console.log(error);
+                })
+            }
+        }
     }
 </script>
 

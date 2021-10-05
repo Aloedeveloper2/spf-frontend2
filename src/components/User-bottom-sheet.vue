@@ -59,6 +59,7 @@
 </template>
 
 <script>
+    import config from '../config/address';
     import axios from 'axios';
     export default {
         name:'Users',
@@ -69,7 +70,7 @@
             }
         },
         mounted(){
-            axios.get(`http://localhost:5000/user/telemarketer`).then(response =>{
+            axios.get(`${config.server}/user/telemarketer`).then(response =>{
                 this.users = response.data;
             }).catch(error =>{
                 console.log(error);

@@ -139,6 +139,7 @@
 </template>
 
 <script>
+  import config from '../config/address';
   import axios from 'axios';
   export default {
     data: () => ({
@@ -180,7 +181,7 @@
 
     methods: {
       initialize () {
-        axios.get('http://localhost:5000/post').then(response =>{
+        axios.get(`${config.server}/post`).then(response =>{
           this.posts = response.data;
           this.loading = false;
         }).catch(error =>{
@@ -199,7 +200,7 @@
       }, */
 
       /* deleteItemConfirm () {
-        axios.delete(`http://localhost:5000/post/${this.editedItem.id}`).then(()=>{
+        axios.delete(`${config.server}/post/${this.editedItem.id}`).then(()=>{
           this.lists.splice(this.editedIndex, 1)
           this.closeDelete()
         }).catch(error =>{
@@ -225,7 +226,7 @@
       }, */
 
       save () {
-        axios.post('http://localhost:5000/post', {data: this.editedItem}).then((response) =>{
+        axios.post(`${config.server}/post`, {data: this.editedItem}).then((response) =>{
             this.editedItem = response.data;
             this.posts.push(this.editedItem);
             this.close();

@@ -172,6 +172,7 @@
 
 <script>
   import axios from 'axios';
+  import config from '../config/address';
   export default {
     data: () => ({
       dialog: false,
@@ -226,7 +227,7 @@
 
     methods: {
       initialize () {
-        axios.get('http://localhost:5000/user').then(response =>{
+        axios.get(`${config.server}/user`).then(response =>{
           this.lists = response.data;
           this.loading = false;
         }).catch(error =>{
@@ -247,7 +248,7 @@
       },
 
       deleteItemConfirm () {
-        axios.delete(`http://localhost:5000/user/${this.editedItem.id}`).then(()=>{
+        axios.delete(`${config.server}/user/${this.editedItem.id}`).then(()=>{
           this.lists.splice(this.editedIndex, 1)
           this.closeDelete()
         }).catch(error =>{
@@ -274,14 +275,14 @@
 
       save () {
         if (this.editedIndex > -1) {
-          axios.put(`http://localhost:5000/user/${this.editedItem.id}`, {data: this.editedItem}).then(()=>{
+          axios.put(`${config.server}/user/${this.editedItem.id}`, {data: this.editedItem}).then(()=>{
             Object.assign(this.lists[this.editedIndex], this.editedItem)
             this.close();
           }).catch(error=>{
             console.log(error);
           })
         } else {
-          axios.post('http://localhost:5000/user/register', {data: this.editedItem}).then(() =>{
+          axios.post(`${config.server}/user/register`, {data: this.editedItem}).then(() =>{
             this.lists.push(this.editedItem);
             this.close();
           }).catch(error =>{

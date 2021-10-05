@@ -58,11 +58,28 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>BIGGY</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <div>
+        <v-img 
+          max-height="150"
+          max-width="51" 
+          src="./assets/logo aloe-01.png"
+        >
+        </v-img>
+      </div>
     </v-app-bar>
 
-    <v-main>
+    <v-main id="reporting-style">
       <router-view/>
     </v-main>
+    <v-footer padless color="blue lighten-2">
+      <v-col
+        class="text-center"
+        cols="12"
+      >
+        <i>Copyright © {{ new Date().getFullYear() }} — Aloe Sytems</i>
+      </v-col>
+    </v-footer>
   </v-app>
 </template>
 
@@ -86,3 +103,18 @@ export default {
   }
 }
 </script>
+
+<style>
+  #reporting-style::before{
+    background-position: 50% 50%;
+    content: "";
+    background-image: url('./assets/logo aloe-01.png');
+    background-size: contain;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.1;
+  }
+</style>

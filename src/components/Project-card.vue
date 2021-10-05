@@ -7,11 +7,11 @@
             <div>
                 <v-card-title
                     class="text-h5"
-                    v-text="item.title"
+                    v-text="project.name"
                 ></v-card-title>
                 
                 <v-card-actions>
-                    <a :href="item.path" target="_blank">
+                    <a :href="project.path" target="_blank">
                         <v-btn
                             class="ml-2 mt-3"
                             fab
@@ -25,31 +25,19 @@
                             </v-icon>
                         </v-btn>
                     </a>
-                    <v-btn
-                            class="ml-2 mt-3"
-                            fab
-                            icon
-                            height="40px"
-                            right
-                            width="40px"
-                        >
-                            
-                            <v-icon>
-                                mdi-headset
-                            </v-icon>
-                        </v-btn>
+                    <project-post-list :id="project.id"/>
                 </v-card-actions>
             </div>
-
-            
         </div>
     </v-card>
 </template>
 
 <script>
+    import ProjectPostList from './Project-post-list.vue';
     export default {
         name:'Project-card',
-        props: ['item']
+        props: ['project'],
+        components: { ProjectPostList }
     }
 </script>
 
