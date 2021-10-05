@@ -2,6 +2,7 @@
     <v-dialog
         transition="dialog-top-transition"
         max-width="600"
+        v-model="dialog"
     >
         <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -43,9 +44,15 @@
                 </v-card-text>
                 <v-card-actions class="justify-end">
                     <v-btn
+                        color="red"
+                        text
+                        @click="dialog = false"
+                    >Fermer</v-btn>
+                    <v-btn
+                        color="primary"
                         text
                         @click="getPostIds"
-                    >Close</v-btn>
+                    >Valider</v-btn>
                 </v-card-actions>
             </v-card>
         </template>
@@ -59,6 +66,7 @@
         props: ['id'],
         data () {
             return {
+                dialog: false,
                 singleSelect: false,
                 selected: [],
                 idList: [],
@@ -81,8 +89,9 @@
                 this.sendIds(this.idList);
             },
             sendIds(ids){
-                axios.post(`${config.server}/project`, {postIds: ids, projectId: this.id}).then(response =>{
+                axios.post(`${config.server}/project/assign`, {postIds: ids, projectId: this.id}).then(response =>{
                     console.log(response);
+                    this.dialog = false;
                 }).catch(error=>{
                     console.log(error);
                 })

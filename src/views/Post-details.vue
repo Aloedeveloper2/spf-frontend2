@@ -37,7 +37,10 @@
         name: "Post-details",
         components: {
             Users, PostProjects
-        }
+        },
+        mounted(){
+
+        },
     }
 </script>
 
