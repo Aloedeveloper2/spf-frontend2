@@ -12,7 +12,7 @@
                             >
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
-                            <PostContacts />
+                            <PostContacts :id="project.id"/>
                         </v-card-actions>
                     </div>
                 </div>

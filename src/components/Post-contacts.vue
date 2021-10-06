@@ -58,8 +58,9 @@
                                             md="6"
                                         >
                                             <v-text-field
-                                            v-model="contact.name"
-                                            label="Nom"
+                                                outlined
+                                                v-model="contact.name"
+                                                label="Nom"
                                             ></v-text-field>
                                         </v-col>
                                         <v-col
@@ -68,8 +69,9 @@
                                             md="6"
                                         >
                                             <v-text-field
-                                            v-model="contact.surname"
-                                            label="Prénom"
+                                                outlined
+                                                v-model="contact.surname"
+                                                label="Prénom"
                                             ></v-text-field>
                                         </v-col>
                                         <v-col
@@ -78,8 +80,9 @@
                                             md="6"
                                         >
                                             <v-text-field
-                                            v-model="contact.phone"
-                                            label="Téléphone"
+                                                outlined
+                                                v-model="contact.phone"
+                                                label="Téléphone"
                                             ></v-text-field>
                                         </v-col>
                                         <v-col
@@ -88,8 +91,9 @@
                                             md="6"
                                         >
                                             <v-text-field
-                                            v-model="contact.town"
-                                            label="Ville"
+                                                outlined
+                                                v-model="contact.town"
+                                                label="Ville"
                                             ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="12">
@@ -103,6 +107,7 @@
                                             >
                                                 <template v-slot:activator="{ on, attrs }">
                                                 <v-text-field
+                                                    outlined
                                                     v-model="contact.birthdate"
                                                     label="Date de naissance"
                                                     v-bind="attrs"
@@ -149,7 +154,10 @@
 
 <script>
     import PostContactsTable from './Post-contacts-table.vue';
+    import config from '../config/address';
+    import axios from 'axios';
     export default {
+        props: ['id'],
         data () {
             return {
                 menu: false,
@@ -171,9 +179,21 @@
         components: { PostContactsTable },
         methods: {
             addContact(){
-                this.dialogContact = false;
-                return this.contacts.unshift(this.contact);
+                axios.post(`${config.server}/contacts`, {data: this.contact, id: this.id}).then(() =>{
+                    this.dialogContact = false;
+                    return this.contacts.unshift(this.contact);
+                }).catch(error=>{
+                    console.log(error);
+                })
+                
             }
+        },
+        mounted(){
+            axios.get(`${config.server}/contacts/${this.id}`).then(response =>{
+                this.contacts = response.data;
+            }).catch(error =>{
+                console.log(error);
+            })
         }
     }
 </script>
