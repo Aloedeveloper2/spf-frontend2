@@ -8,6 +8,7 @@
                         <v-card-actions>
                             <v-btn
                                 icon
+                                @click="getProject(project)"
                             >
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
@@ -25,7 +26,12 @@
     export default{
         name: "Post-project",
         props: ['projects'],
-        components: { PostContacts }
+        components: { PostContacts },
+        methods: {
+            getProject(project){
+                this.$emit('delete', project);
+            }
+        }
     }
 </script>
 

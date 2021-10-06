@@ -165,65 +165,7 @@
                     town: "",
                     birthdate: "",
                 },
-                contacts: [
-                    {
-                        id: "000",
-                        name: 'Ateba',
-                        surname: "Julien",
-                        phone: "693925454",
-                        town: "Odza",
-                        birthdate: "12/01/2003",
-                    },
-                    {
-                        id: "000",
-                        name: 'Kamga',
-                        surname: "Joseph",
-                        phone: "693925454",
-                        town: "Odza",
-                        birthdate: "12/01/2003",
-                    },
-                    {
-                        id: "000",
-                        name: 'Zambo',
-                        surname: "Julien",
-                        phone: "693925454",
-                        town: "Odza",
-                        birthdate: "12/01/2003",
-                    },
-                    {
-                        id: "000",
-                        name: 'Ngo',
-                        surname: "Julienne",
-                        phone: "693925454",
-                        town: "Odza",
-                        birthdate: "12/01/2003",
-                    },
-                    {
-                        id: "000",
-                        name: 'Samba',
-                        surname: "Paul",
-                        phone: "693925454",
-                        town: "Odza",
-                        birthdate: "12/01/2003",
-                    },
-                    {
-                        id: "000",
-                        name: 'Isidor',
-                        surname: "Alain",
-                        phone: "693925454",
-                        town: "Odza",
-                        birthdate: "12/01/2003",
-                    },
-                    {
-                        id: "000",
-                        name: 'Nebra',
-                        surname: "Matthieu",
-                        phone: "693925454",
-                        town: "Odza",
-                        birthdate: "12/01/2003",
-                    },
-                    
-                ]
+                contacts: []
             }
         },
         components: { PostContactsTable },

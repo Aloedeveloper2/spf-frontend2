@@ -21,7 +21,7 @@
         </v-tab>
 
         <v-tab-item>
-            <PostProjects :projects="projects"/>
+            <PostProjects :projects="projects" @delete="deleteProject"/>
         </v-tab-item>
         <v-tab-item>
             <Users />
@@ -53,6 +53,18 @@
                 console.log(error);
             })
         },
+        methods: {
+            deleteProject(project){
+                // Remove project of a post
+                axios.delete(`${config.server}/project/post/${project.id}`).then(response=>{
+                    console.log(response.data);
+                    let projectIndex = this.projects.indexOf(project);
+                    this.projects.splice(projectIndex, 1);
+                }).catch(error =>{
+                    console.log(error);
+                })
+            }
+        }
     }
 </script>
 
