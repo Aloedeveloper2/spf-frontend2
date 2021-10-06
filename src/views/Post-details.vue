@@ -21,7 +21,7 @@
         </v-tab>
 
         <v-tab-item>
-            <PostProjects />
+            <PostProjects :projects="projects"/>
         </v-tab-item>
         <v-tab-item>
             <Users />
@@ -33,13 +33,25 @@
 <script>
     import Users from '@/components/User-bottom-sheet.vue';
     import PostProjects from '@/components/Post-projects.vue';
+    import config from '../config/address';
+    import axios from 'axios';
     export default {
         name: "Post-details",
+        data(){
+            return{
+                projects: []
+            }
+        },
         components: {
             Users, PostProjects
         },
         mounted(){
-
+            // get all projects managed by this post
+            axios.get(`${config.server}/project/post/${this.$route.params.id}`).then(response =>{
+                this.projects = response.data;
+            }).catch(error =>{
+                console.log(error);
+            })
         },
     }
 </script>

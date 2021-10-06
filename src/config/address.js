@@ -1,5 +1,5 @@
 export default {
-    server: "http://192.168.100.92:5000",
+    server: "http://10.20.123.64:5000",
     headers: {
         authorization: localStorage.getItem('token')
     }

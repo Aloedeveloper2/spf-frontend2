@@ -36,7 +36,7 @@
                 <v-list-item
                     v-for="user in users"
                     :key="user.id"
-                    @click="sheet = false"
+                    @click="getUserId(user.id)" 
                 >
                     <v-list-item-avatar>
                         <v-avatar
@@ -67,6 +67,15 @@
             return{
                 sheet: false,
                 users: [],
+            }
+        },
+        methods: {
+            getUserId(id){
+                axios.put(`${config.server}/post/${this.$route.params.id}/account/${id}`, {id: id}).then(() =>{
+                    this.$router.push('/postes');
+                }).catch(error=>{
+                    console.log(error);
+                })
             }
         },
         mounted(){

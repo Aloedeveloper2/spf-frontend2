@@ -1,10 +1,10 @@
 <template>
     <v-row id="post-project-row">
-        <v-col cols="12" v-for="(item, i) in projects" :key="i" sm="12" md="">
+        <v-col cols="auto" v-for="(project, i) in projects" :key="i">
             <v-card color="teal accent-4" dark>
                 <div class="d-flex flex-no-wrap justify-space-between">
                     <div>
-                        <v-card-title>{{item}}</v-card-title>
+                        <v-card-title>{{project.projectId.name}}</v-card-title>
                         <v-card-actions>
                             <v-btn
                                 icon
@@ -21,19 +21,10 @@
 </template>
 
 <script>
-import PostContacts from '@/components/Post-contacts.vue';
+    import PostContacts from '@/components/Post-contacts.vue';
     export default{
         name: "Post-project",
-        data(){
-            return{
-                projects: [
-                    "Tchopetyamo",
-                    "CUB(Bertoua)",
-                    "Femme Fatale",
-                    "CUK(Kribi)"
-                ]
-            }
-        },
+        props: ['projects'],
         components: { PostContacts }
     }
 </script>

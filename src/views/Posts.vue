@@ -152,7 +152,8 @@
           text: 'Poste',
           value: 'name'
         },
-        { text: 'Télévendeur', value: 'account.name' },
+        { text: 'Nom', value: 'account.name' },
+        { text: 'Prénom', value: 'account.surname' },
         { text: 'Téléphone', value: 'account.phone' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
