@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="posts"
+    :items="listenings"
     sort-by="name"
     :search="search"
     :loading="loading"
@@ -233,10 +233,21 @@
       search: '',
       headers: [
         { text: 'Postes', value: 'post' },
+        { text: 'PC/Note', value: 'note1'},
+        { text: 'PC/Comment', value: 'comment1'},
+        { text: 'PO/Note', value: 'note2'},
+        { text: 'PO/Comment', value: 'comment2'},
+        { text: 'TO/Note', value: 'note3'},
+        { text: 'TO/Comment', value: 'comment3'},
+        { text: 'Congé/Note', value: 'note4'},
+        { text: 'Congé/Comment', value: 'comment4'},
+        { text: 'AG/Note', value: 'note5'},
+        { text: 'AG/Comment', value: 'comment5'},
+        { text: 'Note finale', value: 'finalNote'},
         { text: 'Observations', value: 'observation' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
-      posts: [],
+      listenings: [],
       editedIndex: -1,
       editedItem: {
         post: '',
@@ -285,17 +296,21 @@
 
     methods: {
       initialize () {
-        this.posts = []
+        axios.get(`${config.server}/listening`).then(response =>{
+          this.listenings = response.data;
+        }).catch(error =>{
+          console.log(error);
+        })
       },
 
       deleteItem (item) {
-        this.editedIndex = this.posts.indexOf(item)
+        this.editedIndex = this.listenings.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-        this.posts.splice(this.editedIndex, 1)
+        this.listenings.splice(this.editedIndex, 1)
         this.closeDelete()
       },
 
@@ -317,7 +332,7 @@
 
       save () {
         axios.post(`${config.server}/listening`, {data: this.editedItem}).then(() =>{
-          this.posts.push(this.editedItem);
+          this.listenings.push(this.editedItem);
           this.close();
         }).catch(error =>{
           console.log(error);
