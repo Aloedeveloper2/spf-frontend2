@@ -44,21 +44,122 @@
           </template>
           <v-card>
             <v-card-title>
-              <span class="text-h5">Nouveau poste</span>
+              <span class="text-h5">Nouvelle écoute</span>
             </v-card-title>
 
             <v-card-text>
               <v-container>
                 <v-row>
+                  <v-col cols="12">
+                    <v-text-field dense outlined v-model="editedItem.post" label="Poste"></v-text-field>
+                  </v-col>
+                </v-row>
+                Prise de contact
+                <v-row>
+                  <v-col cols="auto" sm="4" md="4">
+                    <v-text-field dense outlined v-model="editedItem.note1" label="Note"></v-text-field>
+                  </v-col>
                   <v-col
-                    cols="12"
-                    sm="12"
-                    md="12"
+                    cols="auto"
+                    sm="8"
+                    md="8"
                   >
                     <v-text-field
-                      v-model="editedItem.post"
-                      label="Poste"
+                      dense
+                      outlined
+                      v-model="editedItem.comment1"
+                      label="Commentaire"
                     ></v-text-field>
+                  </v-col>
+                </v-row>
+                Présentation de l'objet
+                <v-row>
+                  <v-col cols="auto" sm="4" md="4">
+                    <v-text-field dense outlined v-model="editedItem.note2" label="Note"></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="auto"
+                    sm="8"
+                    md="8"
+                  >
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="editedItem.comment2"
+                      label="Commentaire"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                Traitement des objections
+                <v-row>
+                  <v-col cols="auto" sm="4" md="4">
+                    <v-text-field dense outlined v-model="editedItem.note3" label="Note"></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="auto"
+                    sm="8"
+                    md="8"
+                  >
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="editedItem.comment3"
+                      label="Commentaire"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                Prise de congé
+                <v-row>
+                  <v-col cols="auto" sm="4" md="4">
+                    <v-text-field dense outlined v-model="editedItem.note4" label="Note"></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="auto"
+                    sm="8"
+                    md="8"
+                  >
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="editedItem.comment4"
+                      label="Commentaire"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                Attitude générale
+                <v-row>
+                  <v-col cols="auto" sm="4" md="4">
+                    <v-text-field dense outlined v-model="editedItem.note5" label="Note"></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="auto"
+                    sm="8"
+                    md="8"
+                  >
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="editedItem.comment5"
+                      label="Commentaire"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="auto" sm="4" md="4">
+                    <v-text-field dense outlined v-model="editedItem.finalNote" label="Note finale"></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="auto"
+                    sm="8"
+                    md="8"
+                  >
+                    <v-textarea
+                      v-model="editedItem.observation"
+                      outlined
+                      rows="1"
+                      name="input-7-4"
+                      label="Observation"
+                    ></v-textarea>
                   </v-col>
                 </v-row>
               </v-container>
@@ -109,12 +210,6 @@
       >
         mdi-delete
       </v-icon>
-      <v-icon
-        small
-        @click="editItem(item)"
-      >
-        mdi-cog
-      </v-icon>
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -128,6 +223,8 @@
 </template>
 
 <script>
+  import axios from 'axios';
+  import config from '../config/address';
   export default {
     data: () => ({
       dialog: false,
@@ -135,32 +232,41 @@
       loading: false,
       search: '',
       headers: [
-        {
-          text: 'Postes',
-          value: 'post.name'
-        },
-        { text: 'Heures', value: 'hour' },
-        { text: 'Durées', value: 'duration' },
-        { text: 'Notes', value: 'note' },
+        { text: 'Postes', value: 'post' },
         { text: 'Observations', value: 'observation' },
-        { text: 'Corrections', value: 'action' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
       posts: [],
       editedIndex: -1,
       editedItem: {
         post: '',
-        hour: '',
-        note: '',
+        note1: '',
+        comment1: '',
+        note2: '',
+        comment2: '',
+        note3: '',
+        comment3: '',
+        note4: '',
+        comment4: '',
+        note5: '',
+        comment5: '',
+        finalNote: '',
         observation: '',
-        action: '',
       },
       defaultItem: {
-        name: '',
-        hour: '',
-        note: '',
+        post: '',
+        note1: '',
+        comment1: '',
+        note2: '',
+        comment2: '',
+        note3: '',
+        comment3: '',
+        note4: '',
+        comment4: '',
+        note5: '',
+        comment5: '',
+        finalNote: '',
         observation: '',
-        action: '',
       },
     }),
 
@@ -179,64 +285,7 @@
 
     methods: {
       initialize () {
-        this.posts = [
-          {
-            post: {
-              name: "Poste1"
-            },
-            hour: '09H38',
-            duration: '1 m 23 s',
-            note: '3,5/5',
-            observation: 'bon appel du bon sav pour s\'assurer que le client a étè bien livré.',
-            action: 'Aucune action à effectuer',
-          },
-          {
-            post: {
-              name: "Poste2"
-            },
-            hour: '10h23',
-            duration: '5 m 28 s',
-            note: '3,75/5',
-            observation: 'appel moyen on a un souci avec le langage un peu trop familier',
-            action: 'emettre des strategies qui permettront au télèvendeur de rester professionnel quelqu\'en soit celui dont on a au bout du fil .',
-          },
-          {
-            post: {
-              name: "Poste3"
-            },
-            hour: '11 hrs 25',
-            duration: '2 m 22 s',
-            note: '2,5/5',
-            observation: 'appel moyen on a un souci avec le langage un peu trop familier ',
-            action: 'Aucune action à effectuer',
-          },
-          {
-            post: {
-              name: "Poste4"
-            },
-            hour: '15h29',
-            duration: '3 minutes 41',
-            note: '4/5',
-            observation: 'très bon appel best sav auprés d\'un client qui a eu un souci avec la plateforme .',
-            action: 'Aucune action à effectuer',
-          },
-          {
-            post: {
-              name: "Poste5"
-            },
-            hour: '16h19',
-            duration: '3 minutes',
-            note: '3,75/5',
-            observation: 'bon sav une très bonne fidelisation de la clientèle suivi du porte feuille client.',
-            action: 'Aucune action à effectuer',
-          }
-        ]
-      },
-
-      editItem (item) {
-        this.editedIndex = this.posts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
+        this.posts = []
       },
 
       deleteItem (item) {
@@ -267,12 +316,12 @@
       },
 
       save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.posts[this.editedIndex], this.editedItem)
-        } else {
-          this.posts.push(this.editedItem)
-        }
-        this.close()
+        axios.post(`${config.server}/listening`, {data: this.editedItem}).then(() =>{
+          this.posts.push(this.editedItem);
+          this.close();
+        }).catch(error =>{
+          console.log(error);
+        })
       },
     },
   }

@@ -56,6 +56,7 @@
                     md="6"
                   >
                     <v-text-field
+                      outlined
                       v-model="editedItem.name"
                       label="Nom"
                     ></v-text-field>
@@ -66,6 +67,7 @@
                     md="6"
                   >
                     <v-text-field
+                      outlined
                       v-model="editedItem.surname"
                       label="Prénom"
                     ></v-text-field>
@@ -76,6 +78,7 @@
                     md="6"
                   >
                     <v-text-field
+                      outlined
                       v-model="editedItem.phone"
                       label="Téléphone"
                     ></v-text-field>
@@ -86,6 +89,7 @@
                     md="6"
                   >
                     <v-select
+                      outlined
                       v-model="editedItem.type"
                       :items="items"
                       label="Type"

@@ -55,6 +55,7 @@
                     md="12"
                   >
                     <v-text-field
+                      outlined
                       v-model="editedItem.name"
                       label="Poste"
                     ></v-text-field>
