@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-data-iterator
-      :items="items"
+      :items="sheets"
       :items-per-page.sync="itemsPerPage"
       :page.sync="page"
       :search="search"
@@ -65,7 +65,7 @@
         <v-row>
           <v-col
             v-for="item in props.items"
-            :key="item.poste"
+            :key="item.post.name"
             cols="12"
             sm="6"
             md="4"
@@ -73,7 +73,7 @@
           >
             <v-card>
               <v-card-title class="subheading font-weight-bold">
-                {{ item.poste }}
+                {{ item.post.name }}
               </v-card-title>
 
               <v-divider></v-divider>
@@ -84,13 +84,13 @@
                   :key="index"
                 >
                   <v-list-item-content :class="{ 'blue--text': sortBy === key }">
-                    {{ key }}:
+                    {{ key.text }}:
                   </v-list-item-content>
                   <v-list-item-content
                     class="align-end"
                     :class="{ 'blue--text': sortBy === key }"
                   >
-                    {{ item[key.toLowerCase()] }}
+                    {{ item[key.value] }}
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -164,6 +164,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import config from '../config/address';
     export default {
         data () {
             return {
@@ -175,65 +177,31 @@
             itemsPerPage: 4,
             sortBy: 'poste',
             keys: [
-              'Poste',
-              'Appels',
-              'Argumentaires',
-              'Commandes',
-              'RDV',
-              'Occupés',
-              'Indisponibles',
-              'Injoignables'
+              { text: 'Poste', value: 'post'},
+              { text: 'Argumentaires', value: 'argument'},
+              { text: 'Commandes', value: 'order' },
+              { text: "RDV", value: 'rdv' },
+              { text: 'Occupés', value: 'busy_call' },
+              { text: 'Indisponibles', value: 'unavailable' },
+              { text: 'Injoignables', value: 'unreachable' },
+              { text: 'Ne plus appeler', value: 'doNotCall' }
             ],
-            items: [
-              {
-                  poste: 'Poste 1',
-                  calls: 159,
-                  argumentaires: 6.0,
-                  commandes: 24,
-                  rdv: 4.0,
-                  occupés: 87,
-                  indisponibles: '14%',
-                  injoignables: '1%',
-              },
-              {
-                  poste: 'Poste 2',
-                  appels: 237,
-                  argumentaires: 9.0,
-                  commandes: 37,
-                  rdv: 4.3,
-                  occupés: 129,
-                  indisponibles: '8%',
-                  injoignables: '1%',
-              },
-              {
-                  poste: 'Poste 3',
-                  appels: 262,
-                  argumentaires: 16.0,
-                  commandes: 23,
-                  rdv: 6.0,
-                  occupés: 337,
-                  indisponibles: '6%',
-                  injoignables: '7%',
-              },
-              {
-                  poste: 'Poste 4',
-                  appels: 305,
-                  argumentaires: 3.7,
-                  commandes: 67,
-                  rdv: 4.3,
-                  occupés: 413,
-                  indisponibles: '3%',
-                  injoignables: '8%',
-              }
-            ],
+            sheets: [],
         }
+        },
+        mounted(){
+          axios.get(`${config.server}/sheet`).then(response =>{
+            this.sheets = response.data;
+          }).catch(error =>{
+            console.log(error);
+          })
         },
         computed: {
             numberOfPages () {
-                return Math.ceil(this.items.length / this.itemsPerPage)
+                return Math.ceil(this.sheets.length / this.itemsPerPage)
             },
             filteredKeys () {
-                return this.keys.filter(key => key !== 'Poste')
+                return this.keys.filter(key => key.text !== 'Poste')
             },
         },
         methods: {

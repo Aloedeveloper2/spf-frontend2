@@ -7,14 +7,14 @@
         item-key="name"
         show-expand
     >
-        <template v-slot:expanded-item="{ headers}">
+        <template v-slot:expanded-item="{headers}">
             <td :colspan="headers.length">
                 <v-radio-group
-                    v-model="row"
+                    v-model="qualification"
                     row
                 >
                     <v-radio
-                        value="argument"
+                        value="s1"
                     >
                         <template v-slot:label>
                             <div><v-icon>mdi-text-to-speech</v-icon></div>
@@ -22,21 +22,31 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="rdv"
+                        value="s2"
                     >
                         <template v-slot:label>
                             <div><v-icon>mdi-calendar-clock</v-icon></div>
+                            <!-- RDV -->
                         </template>
                     </v-radio>
                     <v-radio
-                        value="order"
+                        value="s3"
                     >
                         <template v-slot:label>
                             <div><v-icon>mdi-cart-check</v-icon></div>
+                            <!-- Commande -->
                         </template>
                     </v-radio>
                     <v-radio
-                        value="indisponible"
+                        value="s4"
+                    >
+                    <!-- Occupé -->
+                        <template v-slot:label>
+                            <div><v-icon>mdi-phone-missed</v-icon></div>
+                        </template>
+                    </v-radio>
+                    <v-radio
+                        value="s5"
                     >
                     <!-- Indisponible -->
                         <template v-slot:label>
@@ -44,7 +54,7 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="injoignable"
+                        value="s6"
                     >
                     <!-- Injoignable -->
                         <template v-slot:label>
@@ -52,22 +62,14 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="absence"
-                    >
-                    <!-- Appel en absence -->
-                        <template v-slot:label>
-                            <div><v-icon>mdi-phone-missed</v-icon></div>
-                        </template>
-                    </v-radio>
-                    <v-radio
-                        value="ne plus appeler"
+                        value="s7"
                     >
                     <!-- Ne plus appeler -->
                         <template v-slot:label>
                             <div><v-icon>mdi-phone-off</v-icon></div>
                         </template>
                     </v-radio>
-                    
+                    {{qualification}}
                 </v-radio-group>
             </td>
         </template>
@@ -75,13 +77,14 @@
 </template>
 
 <script>
+    import axios from 'axios';
+    import config from '../config/address';
     export default {
         props: ['contacts'],
         data () {
             return {
-                row: null,
                 expanded: [],
-                singleExpand: false,
+                singleExpand: true,
                 headers: [
                     {
                         text: 'Noms',
@@ -93,8 +96,20 @@
                     { text: 'Téléphones', value: 'phone' },
                     { text: 'Date de naissance', value: 'birthdate' }
                 ],
+                qualification: null,
+                observation: null
             }
         },
+        watch: {
+            qualification: function(contact){
+                axios.post(`${config.server}/sheet`, {post: this.$route.params.id, data: contact}).then(response =>{
+                    console.log(response);
+                    this.qualification = null;
+                }).catch(error =>{
+                    console.log(error);
+                })
+            }
+        }
     }
 </script>
 
