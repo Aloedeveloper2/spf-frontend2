@@ -89,7 +89,7 @@
 <script>
     import '../style/style.css';
     import ProjectCard from '../components/Project-card.vue';
-    import config from '../config/address';
+    import server from '../config/address';
     import axios from 'axios';
     export default {
         name: 'Project',
@@ -107,7 +107,7 @@
         },
         components: { ProjectCard },
         mounted(){
-            axios.get(`${config.server}/project`).then(response =>{
+            axios.get(`${server.address}/project`).then(response =>{
                 this.projects = response.data;
             }).catch(error =>{
                 console.log(error);
@@ -115,7 +115,7 @@
         },
         methods: {
             save(){
-                axios.post(`${config.server}/project`, {data: this.formValues}).then(response =>{
+                axios.post(`${server.address}/project`, {data: this.formValues}).then(response =>{
                     console.log(response.data)
                     this.projects.push(response.data);
                     this.dialog = false;

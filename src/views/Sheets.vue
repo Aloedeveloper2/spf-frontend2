@@ -165,7 +165,7 @@
 
 <script>
   import axios from 'axios'
-  import config from '../config/address';
+  import server from '../config/address';
     export default {
         data () {
             return {
@@ -190,7 +190,7 @@
         }
         },
         mounted(){
-          axios.get(`${config.server}/sheet`).then(response =>{
+          axios.get(`${server.address}/sheet`).then(response =>{
             this.sheets = response.data;
           }).catch(error =>{
             console.log(error);

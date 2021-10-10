@@ -17,9 +17,9 @@
 </template>
 
 <script>
-export default {
-    props: ['color', 'text','orders']
-}
+    export default {
+        props: ['color', 'text','orders']
+    }
 </script>
 
 <style>

@@ -154,7 +154,7 @@
 
 <script>
     import PostContactsTable from './Post-contacts-table.vue';
-    import config from '../config/address';
+    import server from '../config/address';
     import axios from 'axios';
     export default {
         props: ['id'],
@@ -179,7 +179,7 @@
         components: { PostContactsTable },
         methods: {
             addContact(){
-                axios.post(`${config.server}/contacts`, {data: this.contact, id: this.id}).then(() =>{
+                axios.post(`${server.address}/contacts`, {data: this.contact, id: this.id}).then(() =>{
                     this.dialogContact = false;
                     return this.contacts.unshift(this.contact);
                 }).catch(error=>{
@@ -189,7 +189,7 @@
             }
         },
         mounted(){
-            axios.get(`${config.server}/contacts/${this.id}`).then(response =>{
+            axios.get(`${server.address}/contacts/${this.id}`).then(response =>{
                 this.contacts = response.data;
             }).catch(error =>{
                 console.log(error);

@@ -33,7 +33,7 @@
 <script>
     import Users from '@/components/User-bottom-sheet.vue';
     import PostProjects from '@/components/Post-projects.vue';
-    import config from '../config/address';
+    import server from '../config/address';
     import axios from 'axios';
     export default {
         name: "Post-details",
@@ -47,7 +47,7 @@
         },
         mounted(){
             // get all projects managed by this post
-            axios.get(`${config.server}/project/post/${this.$route.params.id}`).then(response =>{
+            axios.get(`${server.address}/project/post/${this.$route.params.id}`).then(response =>{
                 this.projects = response.data;
             }).catch(error =>{
                 console.log(error);
@@ -56,7 +56,7 @@
         methods: {
             deleteProject(project){
                 // Remove project of a post
-                axios.delete(`${config.server}/project/post/${project.id}`).then(response=>{
+                axios.delete(`${server.address}/project/post/${project.id}`).then(response=>{
                     console.log(response.data);
                     let projectIndex = this.projects.indexOf(project);
                     this.projects.splice(projectIndex, 1);

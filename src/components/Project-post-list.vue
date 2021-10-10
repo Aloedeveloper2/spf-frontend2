@@ -61,7 +61,7 @@
 
 <script>
     import axios from 'axios';
-    import config from '../config/address';
+    import server from '../config/address';
     export default {
         props: ['id'],
         data () {
@@ -89,7 +89,7 @@
                 this.sendIds(this.idList);
             },
             sendIds(ids){
-                axios.post(`${config.server}/project/assign`, {postIds: ids, projectId: this.id}).then(response =>{
+                axios.post(`${server.address}/project/assign`, {postIds: ids, projectId: this.id}).then(response =>{
                     console.log(response);
                     this.dialog = false;
                 }).catch(error=>{
@@ -98,7 +98,7 @@
             }
         },
         mounted(){
-            axios.get(`${config.server}/post`).then(response =>{
+            axios.get(`${server.address}/post`).then(response =>{
                 this.posts = response.data;
             }).catch(error =>{
                 console.log(error);

@@ -78,7 +78,7 @@
 
 <script>
     import axios from 'axios';
-    import config from '../config/address';
+    import server from '../config/address';
     export default {
         props: ['contacts'],
         data () {
@@ -102,7 +102,7 @@
         },
         watch: {
             qualification: function(contact){
-                axios.post(`${config.server}/sheet`, {post: this.$route.params.id, data: contact}).then(response =>{
+                axios.post(`${server.address}/sheet`, {post: this.$route.params.id, data: contact}).then(response =>{
                     console.log(response);
                     this.qualification = null;
                 }).catch(error =>{

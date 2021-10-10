@@ -59,7 +59,7 @@
 </template>
 
 <script>
-    import config from '../config/address';
+    import server from '../config/address';
     import axios from 'axios';
     export default {
         name:'Users',
@@ -71,7 +71,7 @@
         },
         methods: {
             getUserId(id){
-                axios.put(`${config.server}/post/${this.$route.params.id}/account/${id}`, {id: id}).then(() =>{
+                axios.put(`${server.address}/post/${this.$route.params.id}/account/${id}`, {id: id}).then(() =>{
                     this.$router.push('/postes');
                 }).catch(error=>{
                     console.log(error);
@@ -79,7 +79,7 @@
             }
         },
         mounted(){
-            axios.get(`${config.server}/user/telemarketer`).then(response =>{
+            axios.get(`${server.address}/user/telemarketer`).then(response =>{
                 this.users = response.data;
             }).catch(error =>{
                 console.log(error);

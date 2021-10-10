@@ -1,7 +1,7 @@
 <template>
     <div>
       <Details />
-      <column-chart :legend="true" ytitle="Commandes" label="Commandes" :data=" [['Poste 1', 32], ['Poste 2', 46], ['Poste 3', 50], ['Poste 4', 28], ['Poste 5', 12]]">
+      <column-chart :legend="true" ytitle="Commandes" label="Commandes" :data="dashboardData">
       </column-chart>
       <!-- <div class="text-center ma-2">
         <v-btn
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import server from '../config/address';
 import Details from '../components/dashboard/Dashboard-details';
 export default {
   name: 'Reporting',
@@ -34,8 +36,16 @@ export default {
     snackbar: false,
     text: `Aujourd'hui: 18 appels émis`,
     timeout: 5000,
+    dashboardData: []
   }),
-  components: { Details }
+  components: { Details },
+  mounted(){
+    axios.get(`${server.address}/sheet/test/test`).then(response =>{
+      this.dashboardData = response.data;
+    }).catch(error =>{
+      console.log(error);
+    })
+  }
 }
 </script>
 

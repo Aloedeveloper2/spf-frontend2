@@ -224,7 +224,7 @@
 
 <script>
   import axios from 'axios';
-  import config from '../config/address';
+  import server from '../config/address';
   export default {
     data: () => ({
       dialog: false,
@@ -296,7 +296,7 @@
 
     methods: {
       initialize () {
-        axios.get(`${config.server}/listening`).then(response =>{
+        axios.get(`${server.address}/listening`).then(response =>{
           this.listenings = response.data;
         }).catch(error =>{
           console.log(error);
@@ -331,7 +331,7 @@
       },
 
       save () {
-        axios.post(`${config.server}/listening`, {data: this.editedItem}).then(() =>{
+        axios.post(`${server.address}/listening`, {data: this.editedItem}).then(() =>{
           this.listenings.push(this.editedItem);
           this.close();
         }).catch(error =>{
