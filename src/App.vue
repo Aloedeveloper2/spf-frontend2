@@ -72,6 +72,7 @@
     <v-main id="reporting-style">
       <router-view/>
     </v-main>
+    <login></login>
     <v-footer padless color="blue lighten-2">
       <v-col
         class="text-center"
@@ -84,24 +85,28 @@
 </template>
 
 <script>
+  import Login from './views/Login.vue';
+  export default {
+    name: 'App',
 
-export default {
-  name: 'App',
-
-  data () {
-    return {
-      drawer: null,
-      items: [
-        { title: 'Dashboard', icon: 'mdi-chart-line', path:"/"},
-        { title: 'Utilisateurs', icon: 'mdi-account-multiple', path:"/utilisateurs" },
-        { title: 'Projets', icon: 'mdi-folder-multiple', path:"/projets" },
-        { title: 'Postes', icon: 'mdi-headset', path:"/postes" },
-        { title: 'Fiches', icon: 'mdi-table', path:"/fiches" },
-        { title: 'Ecoutes', icon: 'mdi-ear-hearing', path:"/ecoutes" }
-      ]
+    data () {
+      return {
+        drawer: null,
+        items: [
+          { title: 'Dashboard', icon: 'mdi-chart-line', path:"/"},
+          { title: 'Utilisateurs', icon: 'mdi-account-multiple', path:"/utilisateurs" },
+          { title: 'Projets', icon: 'mdi-folder-multiple', path:"/projets" },
+          { title: 'Postes', icon: 'mdi-headset', path:"/postes" },
+          { title: 'Fiches', icon: 'mdi-table', path:"/fiches" },
+          { title: 'Ecoutes', icon: 'mdi-ear-hearing', path:"/ecoutes" }
+        ]
+      }
+    },
+    components: { Login },
+    mounted(){
+      this.dialog = true;
     }
   }
-}
 </script>
 
 <style>

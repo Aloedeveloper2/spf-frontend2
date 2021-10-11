@@ -88,6 +88,19 @@
                     sm="12"
                     md="6"
                   >
+                    <v-text-field
+                      outlined
+                      v-model="editedItem.password"
+                      label="Mot de passe"
+                      :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show ? 'text' : 'password'"
+                      @click:append="show = !show"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="12"
+                  >
                     <v-select
                       outlined
                       v-model="editedItem.type"
@@ -196,11 +209,13 @@
       ],
       lists: [],
       editedIndex: -1,
+      show: false,
       editedItem: {
         name: '',
         surname: '',
         phone: '',
-        type: ''
+        type: '',
+        password: ''
       },
       defaultItem: {
         name: '',

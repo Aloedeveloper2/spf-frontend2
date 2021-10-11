@@ -40,7 +40,7 @@ export default {
   }),
   components: { Details },
   mounted(){
-    axios.get(`${server.address}/sheet/test/test`).then(response =>{
+    axios.get(`${server.address}/sheet/dashboard`).then(response =>{
       this.dashboardData = response.data;
     }).catch(error =>{
       console.log(error);
