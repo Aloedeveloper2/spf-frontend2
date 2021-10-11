@@ -24,7 +24,7 @@
               >
                 <v-list-item-content>
                   <v-list-item-title class="text-h6">
-                    Regy Joyce
+                    {{name}} {{surname}}
                   </v-list-item-title>
                   <v-list-item-subtitle>Administrateur</v-list-item-subtitle>
                 </v-list-item-content>
@@ -99,7 +99,9 @@
           { title: 'Postes', icon: 'mdi-headset', path:"/postes" },
           { title: 'Fiches', icon: 'mdi-table', path:"/fiches" },
           { title: 'Ecoutes', icon: 'mdi-ear-hearing', path:"/ecoutes" }
-        ]
+        ],
+        name: this.$store.getters.getUserData.name,
+        surname: this.$store.getters.getUserData.surname,
       }
     },
     components: { Login },

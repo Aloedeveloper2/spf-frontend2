@@ -102,10 +102,16 @@ export default {
           /* this.errorBadRequest = false;
           this.errorBadServer = false; */
           // localStorage.setItem("token", response.data.authToken);
-          // this.$store.commit("setUserData", response.data.user_data);
-          this.$router.push(`${response.data.account.type == 'Télévendeur' ? `/postes/${response.data.id}` : null}`);
           this.loading = false;
           this.dialog = false;
+          if(response.data.account){
+            this.$router.push(`/postes/${response.data.id}`)
+          }
+          else{
+            this.$store.commit("setUserData", response.data);
+            this.dialog = false;
+          }          
+          
         })
         .catch((error) => {
           console.log(error);
