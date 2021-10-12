@@ -36,12 +36,13 @@ export default {
     snackbar: false,
     text: `Aujourd'hui: 18 appels émis`,
     timeout: 5000,
-    dashboardData: []
+    dashboardData: [],
   }),
   components: { Details },
   mounted(){
     axios.get(`${server.address}/sheet/dashboard`).then(response =>{
       this.dashboardData = response.data;
+      console.log(this.dashboardData)
     }).catch(error =>{
       console.log(error);
     })

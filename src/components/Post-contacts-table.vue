@@ -69,7 +69,6 @@
                             <div><v-icon>mdi-phone-off</v-icon></div>
                         </template>
                     </v-radio>
-                    {{qualification}}
                 </v-radio-group>
             </td>
         </template>

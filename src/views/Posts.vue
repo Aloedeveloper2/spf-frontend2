@@ -192,7 +192,7 @@
       },
 
       goToDetails (item) {
-        this.$router.push(`/admin/postes/${item.id}`);
+        this.$router.push(`/postes/${item.id}`);
       },
 
       /* deleteItem (item) {
