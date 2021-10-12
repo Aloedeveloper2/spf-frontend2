@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer
+    v-if="userType != 'Télévendeur'"
       v-model="drawer"
       app
     >
@@ -26,7 +27,7 @@
                   <v-list-item-title class="text-h6">
                     {{name}} {{surname}}
                   </v-list-item-title>
-                  <v-list-item-subtitle>Administrateur</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{userType}}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -72,7 +73,8 @@
     <v-main id="reporting-style">
       <router-view/>
     </v-main>
-    <login></login>
+
+    <Login v-if="!userType"></Login>
     <v-footer padless color="blue lighten-2">
       <v-col
         class="text-center"
@@ -102,11 +104,13 @@
         ],
         name: this.$store.getters.getUserData.name,
         surname: this.$store.getters.getUserData.surname,
+        userType: this.$store.getters.getUserData.type
       }
     },
     components: { Login },
     mounted(){
       this.dialog = true;
+      // localStorage.removeItem('user_data');
     }
   }
 </script>

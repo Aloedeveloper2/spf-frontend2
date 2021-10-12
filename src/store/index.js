@@ -16,7 +16,8 @@ export default new Vuex.Store({
     setUserData(state, data){
       state.user_data = {
         name: data.name,
-        surname: data.surname
+        surname: data.surname,
+        type: data.type
       }
       /* state.user_data = {
           id: data.id,
