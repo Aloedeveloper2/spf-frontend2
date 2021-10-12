@@ -69,6 +69,13 @@
                             <div><v-icon>mdi-phone-off</v-icon></div>
                         </template>
                     </v-radio>
+                    <v-cols col="3" sm="3">
+                    <v-text-field
+                        dense
+                        outlined
+                        label="Observation"
+                    ></v-text-field>
+                </v-cols>
                 </v-radio-group>
             </td>
         </template>

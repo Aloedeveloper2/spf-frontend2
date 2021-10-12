@@ -30,6 +30,7 @@
                     <v-toolbar-title>Contacts</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-toolbar-items>
+                        <calendar-dialog></calendar-dialog>
                         <v-dialog
                         v-model="dialogContact"
                         max-width="500px"
@@ -156,6 +157,7 @@
     import PostContactsTable from './Post-contacts-table.vue';
     import server from '../config/address';
     import axios from 'axios';
+    import CalendarDialog from './Calendar-dialog.vue';
     export default {
         props: ['id'],
         data () {
@@ -176,7 +178,7 @@
                 contacts: []
             }
         },
-        components: { PostContactsTable },
+        components: { PostContactsTable, CalendarDialog },
         methods: {
             addContact(){
                 axios.post(`${server.address}/contacts`, {data: this.contact, id: this.id}).then(() =>{
