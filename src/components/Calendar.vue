@@ -11,7 +11,7 @@
                         color="grey darken-2"
                         @click="setToday"
                     >
-                        Today
+                        Aujourd'hui
                     </v-btn>
                     <v-btn
                         fab
@@ -39,6 +39,7 @@
                         {{ $refs.calendar.title }}
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
+                    <CalendarNewEvent />
                     <v-menu
                         bottom
                         right
@@ -58,13 +59,13 @@
                         </template>
                         <v-list>
                             <v-list-item @click="type = 'day'">
-                                <v-list-item-title>Day</v-list-item-title>
+                                <v-list-item-title>Jour</v-list-item-title>
                             </v-list-item>
                             <v-list-item @click="type = 'week'">
-                                <v-list-item-title>Week</v-list-item-title>
+                                <v-list-item-title>Semaine</v-list-item-title>
                             </v-list-item>
                             <v-list-item @click="type = 'month'">
-                                <v-list-item-title>Month</v-list-item-title>
+                                <v-list-item-title>Mois</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
@@ -99,16 +100,9 @@
                             dark
                         >
                             <v-btn icon>
-                                <v-icon>mdi-pencil</v-icon>
+                                <v-icon>mdi-delete</v-icon>
                             </v-btn>
                             <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                            <v-spacer></v-spacer>
-                            <v-btn icon>
-                                <v-icon>mdi-heart</v-icon>
-                            </v-btn>
-                            <v-btn icon>
-                                <v-icon>mdi-dots-vertical</v-icon>
-                            </v-btn>
                         </v-toolbar>
                         <v-card-text>
                             <span v-html="selectedEvent.details"></span>
@@ -119,7 +113,7 @@
                                 color="secondary"
                                 @click="selectedOpen = false"
                             >
-                                Cancel
+                                Fermer
                             </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -130,22 +124,24 @@
 </template>
 
 <script>
+    import axios from 'axios';
+    import config from '../config/address';
+    import CalendarNewEvent from './Calendar-new-event.vue';
     export default {
         data: () => ({
             focus: '',
             type: 'month',
             typeToLabel: {
-                month: 'Month',
-                week: 'Week',
-                day: 'Day'
+                month: 'Mois',
+                week: 'Semaine',
+                day: 'Jour'
             },
             selectedEvent: {},
             selectedElement: null,
             selectedOpen: false,
             events: [],
-            colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-            names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
         }),
+        components: {CalendarNewEvent},
         mounted () {
             this.$refs.calendar.checkChange()
         },
@@ -182,35 +178,14 @@
 
                 nativeEvent.stopPropagation()
             },
-            updateRange ({ start, end }) {
-                const events = []
-
-                const min = new Date(`${start.date}T00:00:00`)
-                const max = new Date(`${end.date}T23:59:59`)
-                const days = (max.getTime() - min.getTime()) / 86400000
-                const eventCount = this.rnd(days, days + 20)
-
-                for (let i = 0; i < eventCount; i++) {
-                    const allDay = this.rnd(0, 3) === 0
-                    const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-                    const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-                    const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-                    const second = new Date(first.getTime() + secondTimestamp)
-
-                    events.push({
-                        name: this.names[this.rnd(0, this.names.length - 1)],
-                        start: first,
-                        end: second,
-                        color: this.colors[this.rnd(0, this.colors.length - 1)],
-                        timed: !allDay,
-                    })
-                }
-
-                this.events = events;
-            },
-            rnd (a, b) {
-                return Math.floor((b - a + 1) * Math.random()) + a;
-            },
+            updateRange () {
+                axios.get(`${config.address}/events/${this.$route.params.id}`).then(response =>{
+                    this.events = response.data[0];
+                }).catch(error =>{
+                    console.log(error);
+                })
+            }
+            ,
         },
     }
 </script>

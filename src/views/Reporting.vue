@@ -42,7 +42,6 @@ export default {
   mounted(){
     axios.get(`${server.address}/sheet/dashboard`).then(response =>{
       this.dashboardData = response.data;
-      console.log(this.dashboardData)
     }).catch(error =>{
       console.log(error);
     })
