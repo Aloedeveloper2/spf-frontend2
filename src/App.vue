@@ -58,7 +58,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>BIGGY</v-toolbar-title>
+      <v-toolbar-title>BISSA</v-toolbar-title>
       <v-spacer></v-spacer>
       <div>
         <v-img 
