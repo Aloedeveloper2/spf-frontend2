@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-navigation-drawer
-    v-if="userType != 'Télévendeur'"
       v-model="drawer"
       app
+      v-if="pathName != 'Login' && userType != 'Télévendeur'"
     >
       <v-card
         class="mx-auto"
@@ -55,7 +55,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar app v-if="pathName != 'Login' && userType != 'Télévendeur'">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>BISSA</v-toolbar-title>
@@ -74,7 +74,7 @@
       <router-view/>
     </v-main>
 
-    <Login v-if="!userType"></Login>
+    <!-- <Login v-if="!userType"></Login> -->
     <v-footer padless color="blue lighten-2">
       <v-col
         class="text-center"
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-  import Login from './views/Login.vue';
+  // import Login from './views/Login.vue';
   export default {
     name: 'App',
 
@@ -104,13 +104,18 @@
         ],
         name: this.$store.getters.getUserData.name,
         surname: this.$store.getters.getUserData.surname,
-        userType: this.$store.getters.getUserData.type
+        userType: this.$store.getters.getUserData.type,
+        pathName: ""
       }
     },
-    components: { Login },
+    // components: { Login },
     mounted(){
+      this.pathName = this.$route.name;
       this.dialog = true;
-      // localStorage.removeItem('user_data');
+      localStorage.removeItem('user_data');
+    },
+    beforeUpdate(){
+      this.pathName = this.$route.name;
     }
   }
 </script>

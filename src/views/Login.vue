@@ -1,11 +1,6 @@
 <template>
-  <v-row>
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="400"
-    >
-      <v-card>
+  <v-row justify="center">
+    <v-card max-width="400" class="mx-auto my-12">
         <v-col cols="auto" sm="12" md="8" class="ml-15">
           <v-img src="../assets/logo aloe-01.png"></v-img>
         </v-col>
@@ -53,7 +48,6 @@
                 >
         </v-card-text>
       </v-card>
-    </v-dialog>
     </v-row>
 </template>
 
@@ -110,9 +104,8 @@ export default {
           }
           else{
             this.$store.commit("setUserData", response.data);
-            this.dialog = false;
+            this.$router.replace(`/dashboard`);
           }          
-          window.location.reload();
         })
         .catch((error) => {
           console.log(error);

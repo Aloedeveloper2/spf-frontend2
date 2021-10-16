@@ -7,12 +7,18 @@ import Post from '../views/Posts.vue';
 import PostDetails from '../views/Post-details.vue';
 import Project from '../views/Projects.vue';
 import Sheet from '../views/Sheets.vue';
+import Login from '../views/Login.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard
   },
