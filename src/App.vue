@@ -95,7 +95,7 @@
       return {
         drawer: null,
         items: [
-          { title: 'Dashboard', icon: 'mdi-chart-line', path:"/"},
+          { title: 'Dashboard', icon: 'mdi-chart-line', path:"/dashboard"},
           { title: 'Utilisateurs', icon: 'mdi-account-multiple', path:"/utilisateurs" },
           { title: 'Projets', icon: 'mdi-folder-multiple', path:"/projets" },
           { title: 'Postes', icon: 'mdi-headset', path:"/postes" },
@@ -112,7 +112,7 @@
     mounted(){
       this.pathName = this.$route.name;
       this.dialog = true;
-      localStorage.removeItem('user_data');
+      // localStorage.removeItem('user_data');
     },
     beforeUpdate(){
       this.pathName = this.$route.name;
