@@ -169,18 +169,19 @@
                 sound: true,
                 widgets: false,
                 contact:{
-                    name: "",
-                    surname: "",
-                    phone: "",
-                    town: "",
-                    birthdate: "",
+                    name:'',
+                    surname: '',
+                    phone: '',
+                    town: '',
+                    birthdate: '',
                 },
                 contacts: [],
                 defaultItem: {
-                    name: '',
+                    name:'',
                     surname: '',
                     phone: '',
-                    type: ''
+                    town: '',
+                    birthdate: '',
                 },
             }
         },
