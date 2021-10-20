@@ -13,7 +13,7 @@
             </v-icon>
             Projets
         </v-tab>
-        <v-tab>
+        <v-tab  v-if="userType != 'Télévendeur'">
             <v-icon left>
                 mdi-account
             </v-icon>
@@ -39,7 +39,8 @@
         name: "Post-details",
         data(){
             return{
-                projects: []
+                projects: [],
+                userType: this.$store.getters.getUserData.type,
             }
         },
         components: {

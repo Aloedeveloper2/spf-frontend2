@@ -7,14 +7,14 @@
         item-key="name"
         show-expand
     >
-        <template v-slot:expanded-item="{headers}">
+        <template v-slot:expanded-item="{headers, item}">
             <td :colspan="headers.length">
                 <v-radio-group
                     v-model="qualification"
                     row
                 >
                     <v-radio
-                        value="s1"
+                        :value="{val: 's1', id: item.id}"
                     >
                         <template v-slot:label>
                             <div><v-icon>mdi-text-to-speech</v-icon></div>
@@ -108,12 +108,19 @@
         },
         watch: {
             qualification: function(contact){
-                axios.post(`${server.address}/sheet`, {post: this.$route.params.id, data: contact}).then(response =>{
-                    console.log(response);
-                    this.qualification = null;
-                }).catch(error =>{
-                    console.log(error);
-                })
+                if (contact) {
+                    axios.post(`${server.address}/sheet`, 
+                        {
+                            post: this.$route.params.id, 
+                            data: contact.val,
+                            contactId: contact.id
+                        }).then(response =>{
+                        console.log(response);
+                        this.qualification = null;
+                    }).catch(error =>{
+                        console.log(error);
+                    })
+                }
             }
         }
     }

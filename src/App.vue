@@ -53,6 +53,19 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block color="red" @click="goToBin">
+            <v-icon
+              left  
+              dark
+            >
+              mdi-delete-variant
+            </v-icon>
+            Corbeille
+          </v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <v-app-bar app v-if="pathName != 'Login' && userType != 'Télévendeur'">
@@ -116,6 +129,11 @@
     },
     beforeUpdate(){
       this.pathName = this.$route.name;
+    },
+    methods:{
+      goToBin(){
+        this.$router.push('/corbeille')
+      }
     }
   }
 </script>

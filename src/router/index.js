@@ -8,6 +8,7 @@ import PostDetails from '../views/Post-details.vue';
 import Project from '../views/Projects.vue';
 import Sheet from '../views/Sheets.vue';
 import Login from '../views/Login.vue';
+import Bin from '../views/Bin.vue';
 
 Vue.use(VueRouter);
 
@@ -51,6 +52,11 @@ const routes = [
     path: '/projets',
     name: 'Project',
     component: Project
+  },
+  {
+    path: '/corbeille',
+    name: 'Corbeille',
+    component: Bin
   }
 ]
 
