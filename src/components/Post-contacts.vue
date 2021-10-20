@@ -175,15 +175,25 @@
                     town: "",
                     birthdate: "",
                 },
-                contacts: []
+                contacts: [],
+                defaultItem: {
+                    name: '',
+                    surname: '',
+                    phone: '',
+                    type: ''
+                },
             }
         },
         components: { PostContactsTable, CalendarDialog },
         methods: {
+            close(){
+                this.dialogContact = false;
+                this.contact = Object.assign({}, this.defaultItem)
+            },
             addContact(){
                 axios.post(`${server.address}/contacts`, {data: this.contact, id: this.id}).then(() =>{
-                    this.dialogContact = false;
-                    return this.contacts.unshift(this.contact);
+                    this.contacts.unshift(this.contact);
+                    this.close();
                 }).catch(error=>{
                     console.log(error);
                 })
