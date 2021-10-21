@@ -147,7 +147,7 @@
                         </v-dialog>
                     </v-toolbar-items>
                 </v-toolbar>
-                <post-contacts-table :contacts="contacts" />
+                <post-contacts-table :contacts="contacts" :groupId="id"/>
             </v-card>
         </v-dialog>
     </v-row>

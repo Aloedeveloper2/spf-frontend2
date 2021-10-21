@@ -22,7 +22,7 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="s2"
+                        :value="{val: 's2', id: item.id}"
                     >
                         <template v-slot:label>
                             <div><v-icon>mdi-calendar-clock</v-icon></div>
@@ -30,7 +30,7 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="s3"
+                        :value="{val: 's3', id: item.id}"
                     >
                         <template v-slot:label>
                             <div><v-icon>mdi-cart-check</v-icon></div>
@@ -38,7 +38,7 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="s4"
+                        :value="{val: 's4', id: item.id}"
                     >
                     <!-- Occupé -->
                         <template v-slot:label>
@@ -46,7 +46,7 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="s5"
+                        :value="{val: 's5', id: item.id}"
                     >
                     <!-- Indisponible -->
                         <template v-slot:label>
@@ -54,7 +54,7 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="s6"
+                        :value="{val: 's6', id: item.id}"
                     >
                     <!-- Injoignable -->
                         <template v-slot:label>
@@ -62,7 +62,7 @@
                         </template>
                     </v-radio>
                     <v-radio
-                        value="s7"
+                        :value="{val: 's7', id: item.id}"
                     >
                     <!-- Ne plus appeler -->
                         <template v-slot:label>
@@ -86,7 +86,7 @@
     import axios from 'axios';
     import server from '../config/address';
     export default {
-        props: ['contacts'],
+        props: ['contacts', 'groupId'],
         data () {
             return {
                 expanded: [],
@@ -95,7 +95,7 @@
                     {
                         text: 'Noms',
                         align: 'start',
-                        value: 'name',
+                        value: 'name'
                     },
                     { text: 'Prénoms', value: 'surname' },
                     { text: 'Villes', value: 'town' },
@@ -111,9 +111,9 @@
                 if (contact) {
                     axios.post(`${server.address}/sheet`, 
                         {
-                            post: this.$route.params.id, 
+                            groupId: this.groupId, 
                             data: contact.val,
-                            contactId: contact.id
+                            contactId: contact.id,
                         }).then(response =>{
                         console.log(response);
                         this.qualification = null;

@@ -72,7 +72,7 @@
                   v-for="(item, index) in projects"
                   :key="index"
                 >
-                  <v-list-item-title @click="getProjectSheets(item.id)">{{ item.projectId.name }}</v-list-item-title>
+                  <v-list-item-title id="project-list" @click="getProjectSheets(item.id)">{{ item.name }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -84,7 +84,7 @@
         <v-row>
           <v-col
             v-for="item in props.items"
-            :key="item.post.name"
+            :key="item.group.postId.name"
             cols="12"
             sm="6"
             md="4"
@@ -92,7 +92,7 @@
           >
             <v-card>
               <v-card-title class="subheading font-weight-bold">
-                {{ item.post.name }}
+                {{ item.group.postId.name }}
               </v-card-title>
 
               <v-divider></v-divider>
@@ -210,7 +210,7 @@
           }
         },
         mounted(){
-          axios.get(`${server.address}/project/groups`).then(response =>{
+          axios.get(`${server.address}/project`).then(response =>{
             this.projects = response.data;
           }).catch(error =>{
             console.log(error);
@@ -235,14 +235,18 @@
                 this.itemsPerPage = number
             },
             getProjectSheets(id){
-              axios.get(`${server.address}/${id}`)
+              axios.get(`${server.address}/sheet/${id}`).then(response =>{
+                this.sheets = response.data;
+              }).catch(error =>{
+                console.log(error);
+              })
             }
         },
     }
 </script>
 
 <style scoped>
-  #list{
+  #project-list{
     cursor: pointer;
   }
 </style>
