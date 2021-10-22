@@ -114,6 +114,7 @@
                             groupId: this.groupId, 
                             data: contact.val,
                             contactId: contact.id,
+                            postId: this.$route.params.id
                         }).then(response =>{
                         console.log(response);
                         this.qualification = null;
