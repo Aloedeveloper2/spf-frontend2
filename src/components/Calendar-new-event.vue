@@ -96,15 +96,18 @@
                 </v-card-text>
             </v-card>
         </template>
+        <LoadingDialog :loading='loading' message="Envoi du rendez-vous" />
     </v-dialog>
 </template>
 
 <script>
     import axios from 'axios';
     import config from '../config/address';
+    import LoadingDialog from './Loader.vue';
     export default {
         data () {
             return {
+                loading: false,
                 menuDate: false,
                 menuHour: false,
                 dialog: false,
@@ -115,21 +118,21 @@
                 },
             }
         },
+        components: { LoadingDialog },
         methods: {
             save(){
+                this.loading = true;
                 axios.post(`${config.address}/events`, {
                     name: this.event.name,
                     start: this.event.date+" "+this.event.hour,
                     post: this.$route.params.id
                 }).then(() =>{
+                    this.loading = false;
                     window.location.reload();
                 }).catch(error =>{
                     console.log(error);
                 })
             }
-        },
-        mounted(){
-            
         }
     }
 </script>

@@ -179,12 +179,14 @@
         </v-row>
       </template>
     </v-data-iterator>
+    <LoadingDialog :loading='loading' message='Chargement des fiches' />
   </v-container>
 </template>
 
 <script>
   import axios from 'axios'
   import server from '../config/address';
+  import LoadingDialog from '../components/Loader.vue';
     export default {
         data () {
             return {
@@ -195,6 +197,7 @@
             page: 1,
             itemsPerPage: 4,
             sortBy: 'poste',
+            loading: false,
             keys: [
               { text: 'Poste', value: 'post'},
               { text: 'Argumentaires', value: 'argument'},
@@ -209,9 +212,12 @@
             sheets: [],
           }
         },
+        components: { LoadingDialog },
         mounted(){
+          this.loading = true;
           axios.get(`${server.address}/project`).then(response =>{
             this.projects = response.data;
+            this.loading = false;
           }).catch(error =>{
             console.log(error);
           })
@@ -235,8 +241,10 @@
                 this.itemsPerPage = number
             },
             getProjectSheets(id){
+              this.loading = true;
               axios.get(`${server.address}/sheet/${id}`).then(response =>{
                 this.sheets = response.data;
+                this.loading = false;
               }).catch(error =>{
                 console.log(error);
               })

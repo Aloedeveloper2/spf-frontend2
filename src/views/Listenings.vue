@@ -4,7 +4,7 @@
     :items="listenings"
     sort-by="name"
     :search="search"
-    :loading="loading"
+    :loading="loadingTable"
     loading-text="Chargement... Veuillez patienter"
   >
     <template v-slot:top>
@@ -185,7 +185,7 @@
           </v-card>
         </v-dialog>
 <!-- user form end -->
-
+        
 <!-- dialog delete start -->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
@@ -199,7 +199,7 @@
           </v-card>
         </v-dialog>
 <!-- dialog delete end -->
-
+        <LoadingDialog :loading='loading' message="Envoi des informations" />
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
@@ -225,11 +225,13 @@
 <script>
   import axios from 'axios';
   import server from '../config/address';
+  import LoadingDialog from '../components/Loader.vue';
   export default {
     data: () => ({
+      loading: false,
       dialog: false,
       dialogDelete: false,
-      loading: false,
+      loadingTable: true,
       search: '',
       headers: [
         { text: 'Postes', value: 'post' },
@@ -280,7 +282,7 @@
         observation: '',
       },
     }),
-
+    components: { LoadingDialog },
     watch: {
       dialog (val) {
         val || this.close()
@@ -298,6 +300,7 @@
       initialize () {
         axios.get(`${server.address}/listening`).then(response =>{
           this.listenings = response.data;
+          this.loadingTable = false;
         }).catch(error =>{
           console.log(error);
         })
@@ -331,9 +334,11 @@
       },
 
       save () {
+        this.loading = true;
         axios.post(`${server.address}/listening`, {data: this.editedItem}).then(() =>{
           this.listenings.push(this.editedItem);
           this.close();
+          this.loading = false;
         }).catch(error =>{
           console.log(error);
         })

@@ -120,6 +120,7 @@
                 </v-menu>
             </v-sheet>
         </v-col>
+        <LoadingDialog :loading='loading' message="Chargement des rendez-vous" />
     </v-row>
 </template>
 
@@ -127,8 +128,10 @@
     import axios from 'axios';
     import config from '../config/address';
     import CalendarNewEvent from './Calendar-new-event.vue';
+    import LoadingDialog from './Loader.vue';
     export default {
         data: () => ({
+            loading: false,
             focus: '',
             type: 'month',
             typeToLabel: {
@@ -141,7 +144,7 @@
             selectedOpen: false,
             events: [],
         }),
-        components: {CalendarNewEvent},
+        components: { CalendarNewEvent, LoadingDialog},
         mounted () {
             this.$refs.calendar.checkChange()
         },
@@ -179,8 +182,11 @@
                 nativeEvent.stopPropagation()
             },
             updateRange () {
+                // get all events
+                this.loading = true;
                 axios.get(`${config.address}/events/${this.$route.params.id}`).then(response =>{
                     this.events = response.data[0];
+                    this.loading = false;
                 }).catch(error =>{
                     console.log(error);
                 })

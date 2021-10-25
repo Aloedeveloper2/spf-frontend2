@@ -83,12 +83,13 @@
                 </v-card>
             </v-dialog>
         </v-row>
+        <LoadingDialog :loading='loading' message='Chargement des projets' />
     </v-container>
 </template>
 
 <script>
-    import '../style/style.css';
     import ProjectCard from '../components/Project-card.vue';
+    import LoadingDialog from '../components/Loader.vue';
     import server from '../config/address';
     import axios from 'axios';
     export default {
@@ -98,6 +99,7 @@
                 color: '',
                 dialog: false,
                 file: null,
+                loading: false,
                 formValues: {
                     name: '',
                     path: ''
@@ -105,28 +107,27 @@
                 projects: []
             }
         },
-        components: { ProjectCard },
+        components: { ProjectCard, LoadingDialog },
         mounted(){
+            this.loading = true;
             axios.get(`${server.address}/project`).then(response =>{
                 this.projects = response.data;
+                this.loading = false;
             }).catch(error =>{
                 console.log(error);
             })
         },
         methods: {
             save(){
+                this.loading = true;
                 axios.post(`${server.address}/project`, {data: this.formValues}).then(response =>{
-                    console.log(response.data)
                     this.projects.push(response.data);
                     this.dialog = false;
+                    this.loading = false;
                 }).catch(error =>{
                     console.log(error);
-                })
+                });
             }
         }
     }
 </script>
-
-<style>
-
-</style>

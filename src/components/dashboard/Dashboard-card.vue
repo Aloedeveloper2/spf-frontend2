@@ -6,7 +6,7 @@
                     {{text}}
                 </div>
                 <v-list-item-title class="headline mb-1">
-                    {{orders}}
+                    {{calls}}
                     <v-btn class="float-right " outlined rounded text>
                     Voir <v-icon right dark>mdi-chart-bar</v-icon>
                     </v-btn>
@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        props: ['color', 'text','orders']
+        props: ['color', 'text','calls']
     }
 </script>
 
