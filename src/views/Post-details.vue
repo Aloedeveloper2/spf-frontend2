@@ -13,7 +13,7 @@
             </v-icon>
             Projets
         </v-tab>
-        <v-tab  v-if="userType != 'Télévendeur'">
+        <v-tab v-if="userType != 'Télévendeur'">
             <v-icon left>
                 mdi-account
             </v-icon>

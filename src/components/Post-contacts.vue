@@ -35,7 +35,7 @@
                         v-model="dialogContact"
                         max-width="500px"
                         >
-                        <template v-slot:activator="{ on, attrs }">
+                        <template v-slot:activator="{ on, attrs }" v-if="userType != 'Télévendeur'">
                             <v-btn
                                 dark
                                 text
@@ -168,6 +168,7 @@
                 notifications: false,
                 sound: true,
                 widgets: false,
+                userType: this.$store.getters.getUserData.type,
                 contact:{
                     name:'',
                     surname: '',

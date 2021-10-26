@@ -7,36 +7,21 @@
                 </div>
                 <v-list-item-title class="headline mb-1">
                     {{calls}}
-                    <v-btn class="float-right " outlined rounded text @click="getDashboardData()">
+                    <v-btn class="float-right " outlined rounded text @click="updateDashboardData()">
                     Voir <v-icon right dark>mdi-chart-bar</v-icon>
                     </v-btn>
                 </v-list-item-title>
             </v-list-item-content>
         </v-list-item>
-        <LoadingDialog :loading='loading' message="Chargement des données" />
     </v-card>
 </template>
 
 <script>
-    import axios from 'axios';
-    import LoadingDialog from '../Loader.vue';
     export default {
-        props: ['color', 'text','calls', 'path'],
-        data(){
-            return {
-                loading: false
-            }
-        },
-        components: { LoadingDialog },
+        props: ['color', 'text','calls', 'dashboardData'],
         methods:{
-            getDashboardData(){
-                this.loading = true;
-                axios.get(`${this.path}`).then(response =>{
-                    this.$emit('changedashboard', response.data);
-                    this.loading = false;
-                }).catch(error =>{
-                    console.log(error);
-                })
+            updateDashboardData(){
+                this.$emit('send-dashboard-data', this.dashboardData);
             }
         }
     }

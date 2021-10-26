@@ -58,8 +58,7 @@
     },
     methods: {
       empty(){
-        axios.put(`${server.address}/contacts`).then(response =>{
-          console.log(response);
+        axios.put(`${server.address}/contacts`).then(() =>{
           this.contacts = [];
         }).catch(error=>{
           console.log(error);
