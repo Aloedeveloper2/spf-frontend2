@@ -102,7 +102,7 @@
 
 <script>
     import axios from 'axios';
-    import config from '../config/address';
+    import server from '../config/address';
     import LoadingDialog from './Loader.vue';
     export default {
         data () {
@@ -122,7 +122,7 @@
         methods: {
             save(){
                 this.loading = true;
-                axios.post(`${config.address}/events`, {
+                axios.post(`${server.address}/events`, {
                     name: this.event.name,
                     start: this.event.date+" "+this.event.hour,
                     post: this.$route.params.id

@@ -126,7 +126,7 @@
 
 <script>
     import axios from 'axios';
-    import config from '../config/address';
+    import server from '../config/address';
     import CalendarNewEvent from './Calendar-new-event.vue';
     import LoadingDialog from './Loader.vue';
     export default {
@@ -184,7 +184,7 @@
             updateRange () {
                 // get all events
                 this.loading = true;
-                axios.get(`${config.address}/events/${this.$route.params.id}`).then(response =>{
+                axios.get(`${server.address}/events/${this.$route.params.id}`).then(response =>{
                     this.events = response.data[0];
                     this.loading = false;
                 }).catch(error =>{
