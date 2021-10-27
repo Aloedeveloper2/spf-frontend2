@@ -13,62 +13,99 @@
                     v-model="qualification"
                     row
                 >
-                    <v-radio
-                        :value="{val: 's1', id: item.id}"
-                    >
-                        <template v-slot:label>
-                            <div><v-icon>mdi-text-to-speech</v-icon></div>
-                            <!-- argumentaire -->
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-radio
+                                :value="{val: 's1', id: item.id}"
+                            >
+                                <template v-slot:label>
+                                    <div><v-icon v-bind="attrs" v-on="on">mdi-text-to-speech</v-icon></div>
+                                    <!-- argumentaire -->
+                                </template>
+                            </v-radio>
                         </template>
-                    </v-radio>
-                    <v-radio
-                        :value="{val: 's2', id: item.id}"
-                    >
-                        <template v-slot:label>
-                            <div><v-icon>mdi-calendar-clock</v-icon></div>
-                            <!-- RDV -->
+                        <span>Argumentaire</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-radio
+                                :value="{val: 's2', id: item.id}"
+                            >
+                                <template v-slot:label>
+                                    <div><v-icon v-bind="attrs" v-on="on">mdi-calendar-clock</v-icon></div>
+                                    <!-- RDV -->
+                                </template>
+                            </v-radio>
                         </template>
-                    </v-radio>
-                    <v-radio
-                        :value="{val: 's3', id: item.id}"
-                    >
-                        <template v-slot:label>
-                            <div><v-icon>mdi-cart-check</v-icon></div>
-                            <!-- Commande -->
+                        <span>Rendez-vous</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-radio
+                                :value="{val: 's3', id: item.id}"
+                            >
+                                <template v-slot:label>
+                                    <div><v-icon v-bind="attrs" v-on="on">mdi-cart-check</v-icon></div>
+                                    <!-- Commande -->
+                                </template>
+                            </v-radio>
                         </template>
-                    </v-radio>
-                    <v-radio
-                        :value="{val: 's4', id: item.id}"
-                    >
-                    <!-- Occupé -->
-                        <template v-slot:label>
-                            <div><v-icon>mdi-phone-missed</v-icon></div>
+                        <span>Commande</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-radio
+                                :value="{val: 's4', id: item.id}"
+                            >
+                            <!-- Occupé -->
+                                <template v-slot:label>
+                                    <div><v-icon v-bind="attrs" v-on="on">mdi-phone-missed</v-icon></div>
+                                </template>
+                            </v-radio>
                         </template>
-                    </v-radio>
-                    <v-radio
-                        :value="{val: 's5', id: item.id}"
-                    >
-                    <!-- Indisponible -->
-                        <template v-slot:label>
-                            <div><v-icon>mdi-phone-remove</v-icon></div>
+                        <span>Occupé</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-radio
+                                :value="{val: 's5', id: item.id}"
+                            >
+                            <!-- Indisponible -->
+                                <template v-slot:label>
+                                    <div><v-icon v-bind="attrs" v-on="on">mdi-phone-remove</v-icon></div>
+                                </template>
+                            </v-radio>
                         </template>
-                    </v-radio>
-                    <v-radio
-                        :value="{val: 's6', id: item.id}"
-                    >
-                    <!-- Injoignable -->
-                        <template v-slot:label>
-                            <div><v-icon>mdi-phone-cancel</v-icon></div>
+                        <span>Indisponible</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-radio
+                                :value="{val: 's6', id: item.id}"
+                            >
+                            <!-- Injoignable -->
+                                <template v-slot:label>
+                                    <div><v-icon v-bind="attrs" v-on="on">mdi-phone-cancel</v-icon></div>
+                                </template>
+                            </v-radio>
                         </template>
-                    </v-radio>
-                    <v-radio
-                        :value="{val: 's7', id: item.id}"
-                    >
-                    <!-- Ne plus appeler -->
-                        <template v-slot:label>
-                            <div><v-icon>mdi-phone-off</v-icon></div>
+                        <span>Injoignable</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-radio
+                                :value="{val: 's7', id: item.id}"
+                            >
+                                <!-- Ne plus appeler -->
+                                <template v-slot:label>
+                                    <div>
+                                        <v-icon v-bind="attrs" v-on="on">mdi-phone-off</v-icon>
+                                    </div>
+                                </template>
+                            </v-radio>
                         </template>
-                    </v-radio>
+                        <span>Ne plus appeler</span>
+                    </v-tooltip>
                     <!-- <v-cols col="3" sm="3">
                     <v-text-field
                         dense
