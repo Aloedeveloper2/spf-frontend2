@@ -119,16 +119,18 @@
                 </td>
             </template>
         </v-data-table>
+        <LoadingDialog :loading='loading' message='Opération en cours' />
     </div>
 </template>
 
 <script>
     import Notification from '../components/Notification.vue';
+    import LoadingDialog from './Loader.vue';
     import axios from 'axios';
     import server from '../config/address';
     export default {
         props: ['contacts', 'groupId'],
-        components: {Notification},
+        components: {Notification, LoadingDialog},
         data () {
             return {
                 expanded: [],
@@ -146,13 +148,14 @@
                     { text: 'Date de naissance', value: 'birthdate' }
                 ],
                 qualification: null,
-                observation: null
+                observation: null,
+                loading: false
             }
         },
         watch: {
             qualification: function(contact){
                 if (contact) {
-                    this.alert = true
+                    this.loading = true;
                     axios.post(`${server.address}/sheet`, 
                         {
                             groupId: this.groupId, 
@@ -160,7 +163,9 @@
                             contactId: contact.id,
                             postId: this.$route.params.id
                         }).then(() =>{
-                        this.qualification = null;
+                            this.loading = false;
+                            this.alert = true;
+                            this.qualification = null;
                     }).catch(error =>{
                         console.log(error);
                     })

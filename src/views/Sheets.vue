@@ -9,6 +9,8 @@
       :sort-desc="sortDesc"
       hide-default-footer
     >
+    
+      <!-- Header -->
       <template v-slot:header>
         <v-toolbar
           dark
@@ -80,6 +82,7 @@
         </v-toolbar>
       </template>
 
+      <!-- calls qualification -->
       <template v-slot:default="props">
         <v-row>
           <v-col
@@ -117,7 +120,7 @@
           </v-col>
         </v-row>
       </template>
-
+      <!-- Footer -->
       <template v-slot:footer>
         <v-row
           class="mt-2"
