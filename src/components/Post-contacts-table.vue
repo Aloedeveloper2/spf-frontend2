@@ -2,13 +2,27 @@
     <div>
         <Notification :notification="alert" />
         <v-data-table
+            :search="search"
             :headers="headers"
             :items="contacts"
             :single-expand="singleExpand"
             :expanded.sync="expanded"
-            item-key="name"
+            item-key="id"
             show-expand
         >
+            <template v-slot:top>
+                <v-toolbar
+                    flat
+                >
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Rechercher"
+                        single-line
+                        hide-details
+                    ></v-text-field>
+                </v-toolbar>
+            </template>
             <template v-slot:expanded-item="{headers, item}">
                 <td :colspan="headers.length">
                     <v-radio-group
@@ -133,6 +147,7 @@
         components: {Notification, LoadingDialog},
         data () {
             return {
+                search: '',
                 expanded: [],
                 alert: false,
                 singleExpand: true,
