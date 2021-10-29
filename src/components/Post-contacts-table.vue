@@ -133,7 +133,7 @@
                 </td>
             </template>
         </v-data-table>
-        <LoadingDialog :loading='loading' message='Opération en cours' />
+        <LoadingDialog :loading='loading' :message=loadingMessage />
     </div>
 </template>
 
@@ -147,6 +147,7 @@
         components: {Notification, LoadingDialog},
         data () {
             return {
+                loadingMessage: '',
                 search: '',
                 expanded: [],
                 alert: false,
@@ -170,6 +171,7 @@
         watch: {
             qualification: function(contact){
                 if (contact) {
+                    this.loadingMessage = "Opération en cours";
                     this.loading = true;
                     axios.post(`${server.address}/sheet`, 
                         {
@@ -178,9 +180,15 @@
                             contactId: contact.id,
                             postId: this.$route.params.id
                         }).then(() =>{
-                            this.loading = false;
+                            this.loadingMessage = "Mise à jour de la liste";
                             this.alert = true;
-                            this.qualification = null;
+                            axios.get(`${server.address}/contacts/${this.groupId}`).then(results =>{
+                                this.$emit('update-contacts-list', results.data);
+                                this.loading = false;
+                                // this.qualification = null;
+                            }).catch(error =>{
+                                console.log(error);
+                            })
                     }).catch(error =>{
                         console.log(error);
                     })
@@ -189,7 +197,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>

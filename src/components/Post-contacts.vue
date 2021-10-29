@@ -147,7 +147,7 @@
                         </v-dialog>
                     </v-toolbar-items>
                 </v-toolbar>
-                <post-contacts-table :contacts="contacts" :groupId="id"/>
+                <post-contacts-table :contacts="contacts" :groupId="id" @update-contacts-list="updateContactsList"/>
             </v-card>
         </v-dialog>
     </v-row>
@@ -198,8 +198,10 @@
                     this.close();
                 }).catch(error=>{
                     console.log(error);
-                })
-                
+                });
+            },
+            updateContactsList(contacts){
+                this.contacts = contacts;
             }
         },
         mounted(){
