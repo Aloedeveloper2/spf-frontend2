@@ -35,6 +35,17 @@
                                                     label="Intitulé"
                                                 ></v-text-field>
                                             </v-col>
+                                            <v-col
+                                                cols="12"
+                                                sm="12"
+                                            >
+                                                <v-text-field
+                                                    prepend-inner-icon="mdi-calendar-text"
+                                                    outlined
+                                                    v-model="event.details"
+                                                    label="Détails"
+                                                ></v-text-field>
+                                            </v-col>
                                             <v-col cols="12" sm="12">
                                                 <v-menu
                                                     v-model="menuDate"
@@ -115,6 +126,7 @@
                     name: "",
                     date: "",
                     hour: "",
+                    details: ""
                 },
             }
         },
@@ -125,6 +137,7 @@
                 axios.post(`${server.address}/events`, {
                     name: this.event.name,
                     start: this.event.date+" "+this.event.hour,
+                    details: this.event.details,
                     post: this.$route.params.id
                 }).then(() =>{
                     this.loading = false;
