@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Notification :notification="alert" />
+        <Notification :notification="alert" :message="messageNotification"/>
         <v-data-table
             :search="search"
             :headers="headers"
@@ -147,6 +147,7 @@
         components: {Notification, LoadingDialog},
         data () {
             return {
+                messageNotification: "",
                 loadingMessage: '',
                 search: '',
                 expanded: [],
@@ -181,6 +182,7 @@
                             postId: this.$route.params.id
                         }).then(() =>{
                             this.loadingMessage = "Mise à jour de la liste";
+                            this.messageNotification = "Appel effectué!"
                             this.alert = true;
                             axios.get(`${server.address}/contacts/${this.groupId}`).then(results =>{
                                 this.$emit('update-contacts-list', results.data);

@@ -6,16 +6,15 @@
         :timeout="timeout"
         >
             <v-icon left>mdi-check-circle</v-icon>
-        {{ text }}
+        {{ message }}
         </v-snackbar>
     </div>
 </template>
 
 <script>
     export default {
-        props: ["notification"],
+        props: ["notification", "message"],
         data: () => ({
-            text: 'Appel effectuée!',
             timeout: 4000,
         }),
         computed: {

@@ -99,7 +99,7 @@
                             :color="selectedEvent.color"
                             dark
                         >
-                            <v-btn icon>
+                            <v-btn icon @click="deleteEvent(selectedEvent)">
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
                             <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
@@ -121,6 +121,7 @@
             </v-sheet>
         </v-col>
         <LoadingDialog :loading='loading' message="Chargement des rendez-vous" />
+        <Notification :notification="alert" :message="messageNotification"/>
     </v-row>
 </template>
 
@@ -129,8 +130,11 @@
     import server from '../config/address';
     import CalendarNewEvent from './Calendar-new-event.vue';
     import LoadingDialog from './Loader.vue';
+    import Notification from './Notification.vue';
     export default {
         data: () => ({
+            messageNotification: "",
+            alert: false,
             loading: false,
             focus: '',
             type: 'month',
@@ -144,7 +148,7 @@
             selectedOpen: false,
             events: [],
         }),
-        components: { CalendarNewEvent, LoadingDialog},
+        components: { CalendarNewEvent, LoadingDialog, Notification},
         mounted () {
             this.$refs.calendar.checkChange()
         },
@@ -190,8 +194,19 @@
                 }).catch(error =>{
                     console.log(error);
                 })
+            },
+            deleteEvent(event){
+                this.loading = true;
+                axios.delete(`${server.address}/events/${this.$route.params.id}/${event._id}`).then(response =>{
+                    let eventIndex = this.events.indexOf(event);
+                    this.events.splice(eventIndex, 1);
+                    this.loading = false;
+                    this.alert = true;
+                    this.messageNotification = response.data;
+                }).catch(error =>{
+                    console.log(error);
+                })
             }
-            ,
         },
     }
 </script>
