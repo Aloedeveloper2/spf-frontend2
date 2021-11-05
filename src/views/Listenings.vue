@@ -57,7 +57,7 @@
                 Prise de contact
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note1" label="Note"></v-text-field>
+                    <v-text-field hint="Sur 4" dense outlined v-model="editedItem.note1" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -75,7 +75,7 @@
                 Présentation de l'objet
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note2" label="Note"></v-text-field>
+                    <v-text-field hint="sur 4" dense outlined v-model="editedItem.note2" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -90,10 +90,10 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                Traitement des objections
+                Traitement de l'appel
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note3" label="Note"></v-text-field>
+                    <v-text-field hint="Sur 10" dense outlined v-model="editedItem.note3" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -108,10 +108,10 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                Prise de congé
+                Traitement des objections
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note4" label="Note"></v-text-field>
+                    <v-text-field hint="Sur 4" dense outlined v-model="editedItem.note4" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -126,10 +126,10 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                Attitude générale
+                Prise de congé
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note5" label="Note"></v-text-field>
+                    <v-text-field hint="Sur 6" dense outlined v-model="editedItem.note5" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -144,9 +144,27 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+                Attitude générale
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.finalNote" label="Note finale"></v-text-field>
+                    <v-text-field hint="Sur 12" persistent-hint dense outlined v-model="editedItem.note6" label="Note"></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="auto"
+                    sm="8"
+                    md="8"
+                  >
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="editedItem.comment6"
+                      label="Commentaire"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="auto" sm="4" md="4">
+                    <v-text-field hint="Sur 40" dense outlined v-model="editedItem.finalNote" label="Note finale"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -236,17 +254,19 @@
       headers: [
         { text: 'Postes', value: 'post' },
         { text: 'PC/Note', value: 'note1'},
-        { text: 'PC/Comment', value: 'comment1'},
+        { text: 'PC/Com', value: 'comment1'},
         { text: 'PO/Note', value: 'note2'},
-        { text: 'PO/Comment', value: 'comment2'},
-        { text: 'TO/Note', value: 'note3'},
-        { text: 'TO/Comment', value: 'comment3'},
-        { text: 'Congé/Note', value: 'note4'},
-        { text: 'Congé/Comment', value: 'comment4'},
-        { text: 'AG/Note', value: 'note5'},
-        { text: 'AG/Comment', value: 'comment5'},
-        { text: 'Note finale', value: 'finalNote'},
-        { text: 'Observations', value: 'observation' },
+        { text: 'PO/Com', value: 'comment2'},
+        { text: 'TA/Note', value: 'note3'},
+        { text: 'TA/Com', value: 'comment3'},
+        { text: 'TO/Note', value: 'note4'},
+        { text: 'TO/Com', value: 'comment4'},
+        { text: 'Congé/Note', value: 'note5'},
+        { text: 'Congé/Com', value: 'comment5'},
+        { text: 'AG/Note', value: 'note6'},
+        { text: 'AG/Com', value: 'comment6'},
+        { text: 'NF', value: 'finalNote'},
+        { text: 'Obs', value: 'observation' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
       listenings: [],
