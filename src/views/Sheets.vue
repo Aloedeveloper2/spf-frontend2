@@ -58,6 +58,15 @@
               </v-btn>
             </v-btn-toggle>
             <v-spacer></v-spacer>
+            <!-- Show the total of sheets -->
+            <v-btn
+              @click="getTotalSheet()"
+              depressed
+              color="red"
+            >
+              <v-icon>mdi-file-table</v-icon>
+            </v-btn>
+            <v-spacer></v-spacer>
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -182,7 +191,7 @@
         </v-row>
       </template>
     </v-data-iterator>
-    <LoadingDialog :loading='loading' message='Chargement des fiches' />
+    <LoadingDialog :loading='loading' :message="loadingMessage" />
   </v-container>
 </template>
 
@@ -193,6 +202,7 @@
     export default {
         data () {
             return {
+            loadingMessage: "",
             itemsPerPageArray: [4, 8, 12],
             search: '',
             filter: {},
@@ -217,6 +227,7 @@
         },
         components: { LoadingDialog },
         mounted(){
+          this.loadingMessage = "Chargement des projets"
           this.loading = true;
           axios.get(`${server.address}/project`).then(response =>{
             this.projects = response.data;
@@ -243,9 +254,20 @@
             updateItemsPerPage (number) {
                 this.itemsPerPage = number
             },
-            getProjectSheets(id){
+            getProjectSheets(projectId){
+              this.loadingMessage = "Chargement des fiches";
               this.loading = true;
-              axios.get(`${server.address}/sheet/${id}`).then(response =>{
+              axios.get(`${server.address}/sheet/${projectId}`).then(response =>{
+                this.sheets = response.data;
+                this.loading = false;
+              }).catch(error =>{
+                console.log(error);
+              })
+            },
+            getTotalSheet(){
+              this.loadingMessage = "Chargement de la fiche totale";
+              this.loading = true;
+              axios.get(`${server.address}/sheet/total/today`).then(response =>{
                 this.sheets = response.data;
                 this.loading = false;
               }).catch(error =>{
