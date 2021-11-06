@@ -57,15 +57,8 @@
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
-            <v-spacer></v-spacer>
-            <!-- Show the total of sheets -->
-            <v-btn
-              @click="getTotalSheet()"
-              depressed
-              color="red"
-            >
-              <v-icon>mdi-file-table</v-icon>
-            </v-btn>
+            <v-spacer></v-spacer>       
+            <TotalSheet />     
             <v-spacer></v-spacer>
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
@@ -199,6 +192,7 @@
   import axios from 'axios'
   import server from '../config/address';
   import LoadingDialog from '../components/Loader.vue';
+  import TotalSheet from '../components/Total-sheet.vue';
     export default {
         data () {
             return {
@@ -225,7 +219,7 @@
             sheets: [],
           }
         },
-        components: { LoadingDialog },
+        components: { LoadingDialog, TotalSheet },
         mounted(){
           this.loadingMessage = "Chargement des projets"
           this.loading = true;
@@ -258,16 +252,6 @@
               this.loadingMessage = "Chargement des fiches";
               this.loading = true;
               axios.get(`${server.address}/sheet/${projectId}`).then(response =>{
-                this.sheets = response.data;
-                this.loading = false;
-              }).catch(error =>{
-                console.log(error);
-              })
-            },
-            getTotalSheet(){
-              this.loadingMessage = "Chargement de la fiche totale";
-              this.loading = true;
-              axios.get(`${server.address}/sheet/total/today`).then(response =>{
                 this.sheets = response.data;
                 this.loading = false;
               }).catch(error =>{
