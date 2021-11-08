@@ -4,9 +4,18 @@
     :items="listenings"
     sort-by="name"
     :search="search"
+    single-expand
+    :expanded.sync="expanded"
+    item-key="id"
+    show-expand
     :loading="loadingTable"
     loading-text="Chargement... Veuillez patienter"
   >
+    <template v-slot:expanded-item="{ headers}">
+      <td :colspan="headers.length">
+        <audio src="../assets/Adele.mp3" controls></audio>
+      </td>
+    </template>
     <template v-slot:top>
       <v-toolbar
         flat
@@ -207,7 +216,7 @@
 <!-- dialog delete start -->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Veuillez-confirmer votre opération?</v-card-title>
+            <v-card-title class="text-h5">Veuillez-confirmer votre opération</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
@@ -217,16 +226,41 @@
           </v-card>
         </v-dialog>
 <!-- dialog delete end -->
+<!-- dialog upload start -->
+        <v-dialog v-model="dialogUpload" max-width="500px">
+          <v-card>
+            <v-card-title>
+              <v-file-input label="Fichier audio" outlined dense @change="handleFileUpload($event)">
+                <template v-slot:selection="{ text }">
+                  <v-chip small label color="primary">
+                    {{ text }}
+                  </v-chip>
+                </template>
+              </v-file-input>
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialogUpload = false">Annuler</v-btn>
+              <v-btn color="blue darken-1" text @click="uploadConfirm">Confirmer</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+<!-- dialog upload end -->
         <LoadingDialog :loading='loading' message="Envoi des informations" />
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon
-        small
         class="mr-2"
         @click="deleteItem(item)"
       >
         mdi-delete
+      </v-icon>
+      <v-icon
+        @click="dialogUpload = true"
+      >
+        mdi-file-upload
       </v-icon>
     </template>
     <template v-slot:no-data>
@@ -246,9 +280,12 @@
   import LoadingDialog from '../components/Loader.vue';
   export default {
     data: () => ({
+      expanded  : [],
       loading: false,
       dialog: false,
       dialogDelete: false,
+      dialogUpload: false,
+      file: '',
       loadingTable: true,
       search: '',
       headers: [
@@ -335,6 +372,24 @@
       deleteItemConfirm () {
         this.listenings.splice(this.editedIndex, 1)
         this.closeDelete()
+      },
+
+      handleFileUpload(event){
+        this.file = event;
+      },
+
+      uploadConfirm () {
+        let formData = new FormData();
+        formData.append('file', this.file)
+        axios.post(`${server.address}/listening/file`, formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+        }).then(response =>{
+          console.log(response);
+        }).catch(error =>{
+          console.log(error);
+        })
       },
 
       close () {
