@@ -11,9 +11,9 @@
     :loading="loadingTable"
     loading-text="Chargement... Veuillez patienter"
   >
-    <template v-slot:expanded-item="{ headers}">
+    <template v-slot:expanded-item="{ headers, item }">
       <td :colspan="headers.length">
-        <audio src="../assets/Adele.mp3" controls></audio>
+        <audio :src="item.filePath" controls></audio>
       </td>
     </template>
     <template v-slot:top>
@@ -237,6 +237,7 @@
                   </v-chip>
                 </template>
               </v-file-input>
+              <v-progress-linear :value="uploadProgress"></v-progress-linear>
             </v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -258,7 +259,7 @@
         mdi-delete
       </v-icon>
       <v-icon
-        @click="dialogUpload = true"
+        @click="getListeningId(item)"
       >
         mdi-file-upload
       </v-icon>
@@ -285,7 +286,9 @@
       dialog: false,
       dialogDelete: false,
       dialogUpload: false,
+      uploadProgress: Number(),
       file: '',
+      listeningId: null,
       loadingTable: true,
       search: '',
       headers: [
@@ -378,14 +381,24 @@
         this.file = event;
       },
 
+      getListeningId(item){
+        this.dialogUpload = true;
+        this.listeningId = this.listeningId ? this.listeningId : item.id;
+      },
+
       uploadConfirm () {
+        let context = this;
         let formData = new FormData();
         formData.append('file', this.file)
-        axios.post(`${server.address}/listening/file`, formData, {
+        let config = {
+          onUploadProgress: function(progressEvent) {
+            context.uploadProgress = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+          },
           headers: {
               'Content-Type': 'multipart/form-data'
           }
-        }).then(response =>{
+        };
+        axios.post(`${server.address}/listening/${this.listeningId}/file`, formData, config).then(response =>{
           console.log(response);
         }).catch(error =>{
           console.log(error);
@@ -410,10 +423,11 @@
 
       save () {
         this.loading = true;
-        axios.post(`${server.address}/listening`, {data: this.editedItem}).then(() =>{
+        axios.post(`${server.address}/listening`, {data: this.editedItem}).then((response) =>{
           this.listenings.push(this.editedItem);
           this.close();
           this.loading = false;
+          this.listeningId = response.data.id;
         }).catch(error =>{
           console.log(error);
         })
