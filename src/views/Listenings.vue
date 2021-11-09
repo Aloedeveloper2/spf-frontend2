@@ -237,7 +237,6 @@
                   </v-chip>
                 </template>
               </v-file-input>
-              <v-progress-linear :value="uploadProgress"></v-progress-linear>
             </v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -286,7 +285,6 @@
       dialog: false,
       dialogDelete: false,
       dialogUpload: false,
-      uploadProgress: Number(),
       file: '',
       listeningId: null,
       loadingTable: true,
@@ -387,19 +385,17 @@
       },
 
       uploadConfirm () {
-        let context = this;
         let formData = new FormData();
-        formData.append('file', this.file)
-        let config = {
-          onUploadProgress: function(progressEvent) {
-            context.uploadProgress = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
-          },
+        formData.append('file', this.file);
+        this.loading = true;
+        axios.post(`${server.address}/listening/${this.listeningId}/file`, formData, {
           headers: {
               'Content-Type': 'multipart/form-data'
           }
-        };
-        axios.post(`${server.address}/listening/${this.listeningId}/file`, formData, config).then(response =>{
+        }).then(response =>{
           console.log(response);
+          this.loading = false;
+          this.dialogUpload = false;
         }).catch(error =>{
           console.log(error);
         })
