@@ -19,13 +19,13 @@
             inset
             vertical
           ></v-divider>
-          <!-- <v-text-field
+          <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
               label="Rechercher"
               single-line
               hide-details
-          ></v-text-field> -->
+          ></v-text-field>
           <v-spacer></v-spacer>
           <v-btn
             color="amber"
