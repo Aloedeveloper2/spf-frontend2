@@ -4,7 +4,7 @@
         <v-data-table
             :search="search"
             :headers="headers"
-            :items="contacts"
+            :items="allContacts"
             :single-expand="singleExpand"
             :expanded.sync="expanded"
             item-key="id"
@@ -122,18 +122,40 @@
                             </template>
                             <span>Ne plus appeler</span>
                         </v-tooltip>
-                        <!-- <v-cols col="3" sm="3">
-                        <v-text-field
-                            dense
-                            outlined
-                            label="Observation"
-                        ></v-text-field>
-                    </v-cols> -->
                     </v-radio-group>
                 </td>
             </template>
+            
+            <!-- <template v-slot:[`item.actions`]="{ item }">
+                <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-icon
+                            class="mr-2"
+                            @click="deleteItem(item)"
+                            v-bind="attrs"
+                            v-on="on"
+                        >
+                            mdi-delete
+                        </v-icon>
+                    </template>
+                    <span>Supprimer</span>
+                </v-tooltip>
+            </template> -->
         </v-data-table>
-        <LoadingDialog :loading='loading' :message=loadingMessage />
+        <!-- dialog delete start -->
+            <!-- <v-dialog v-model="dialogDelete" max-width="500px">
+                <v-card>
+                    <v-card-title class="text-h5">Veuillez-confirmer votre opération</v-card-title>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="dialogDelete = false">Annuler</v-btn>
+                        <v-btn color="blue darken-1" text @click="deleteContactConfirm">Confirmer</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog> -->
+        <!-- dialog delete end -->
+        <LoadingDialog :loading='loading' :message='loadingMessage' />
     </div>
 </template>
 
@@ -147,6 +169,7 @@
         components: {Notification, LoadingDialog},
         data () {
             return {
+                allContacts: this.contacts,
                 messageNotification: "",
                 loadingMessage: '',
                 search: '',

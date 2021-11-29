@@ -274,7 +274,6 @@
           this.closeDelete()
         }).catch(error =>{
           console.log(error);
-          this.closeDelete();
         })
       },
 

@@ -150,6 +150,7 @@
                 <post-contacts-table :contacts="contacts" :groupId="id" @update-contacts-list="updateContactsList"/>
             </v-card>
         </v-dialog>
+        <LoadingDialog :loading="loading" :message="loadingMessage" />
     </v-row>
 </template>
 
@@ -158,10 +159,13 @@
     import server from '../config/address';
     import axios from 'axios';
     import CalendarDialog from './Calendar-dialog.vue';
+    import LoadingDialog from './Loader.vue';
     export default {
         props: ['id'],
         data () {
             return {
+                loading: false,
+                loadingMessage: "",
                 menu: false,
                 dialogContact: false,
                 dialog: false,
@@ -186,7 +190,7 @@
                 },
             }
         },
-        components: { PostContactsTable, CalendarDialog },
+        components: { PostContactsTable, CalendarDialog, LoadingDialog },
         methods: {
             close(){
                 this.dialogContact = false;
@@ -205,8 +209,11 @@
             }
         },
         mounted(){
+            this.loadingMessage = "Chargement des contacts"
+            this.loading = true;
             axios.get(`${server.address}/contacts/${this.id}`).then(response =>{
                 this.contacts = response.data;
+                this.loading = false;
             }).catch(error =>{
                 console.log(error);
             })
