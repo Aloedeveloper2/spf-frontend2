@@ -58,7 +58,7 @@
               </v-btn>
             </v-btn-toggle>
             <v-spacer></v-spacer>       
-            <TotalSheet />     
+            <TotalSheet :projects="projects"/>     
             <v-spacer></v-spacer>
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
