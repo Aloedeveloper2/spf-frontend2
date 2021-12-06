@@ -7,6 +7,14 @@
     :loading="loadingTable"
     loading-text="Chargement... Veuillez patienter"
   >
+    <template v-slot:[`item.type`]="{ item }">
+      <v-chip
+        :color="getColor(item.type)"
+        dark
+      >
+        {{ item.type }}
+      </v-chip>
+    </template>
     <template v-slot:top>
       <v-toolbar
         flat
@@ -313,6 +321,10 @@
           })
         }
       },
+      getColor (type) {
+        if (type == "Télévendeur") return 'orange'
+        else return 'purple'
+      }
     },
   }
 </script>
