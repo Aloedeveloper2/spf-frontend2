@@ -30,120 +30,121 @@
                     <v-toolbar-title>Contacts</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-toolbar-items>
+                        <ImportContacts @sendContacts="getUploadedContacts" :groupId="id" />
                         <calendar-dialog></calendar-dialog>
                         <v-dialog
-                        v-model="dialogContact"
-                        max-width="500px"
+                            v-model="dialogContact"
+                            max-width="500px"
                         >
-                        <template v-slot:activator="{ on, attrs }" v-if="userType != 'Télévendeur'">
-                            <v-btn
-                                dark
-                                text
-                                v-bind="attrs"
-                                v-on="on"
-                            >
-                            <v-icon large>mdi-plus</v-icon>
-                            </v-btn>
-                        </template>
-                        <v-card>
-                            <v-card-title>
-                                <span class="text-h5">Nouveau contact</span>
-                            </v-card-title>
+                            <template v-slot:activator="{ on, attrs }" v-if="userType != 'Télévendeur'">
+                                <v-btn
+                                    dark
+                                    text
+                                    v-bind="attrs"
+                                    v-on="on"
+                                >
+                                <v-icon large>mdi-plus</v-icon>
+                                </v-btn>
+                            </template>
+                            <v-card>
+                                <v-card-title>
+                                    <span class="text-h5">Nouveau contact</span>
+                                </v-card-title>
 
-                            <v-card-text>
-                                <v-container>
-                                    <v-row>
-                                        <v-col
-                                            cols="12"
-                                            sm="12"
-                                            md="6"
-                                        >
-                                            <v-text-field
-                                                outlined
-                                                v-model="contact.name"
-                                                label="Nom"
-                                            ></v-text-field>
-                                        </v-col>
-                                        <v-col
-                                            cols="12"
-                                            sm="12"
-                                            md="6"
-                                        >
-                                            <v-text-field
-                                                outlined
-                                                v-model="contact.surname"
-                                                label="Prénom"
-                                            ></v-text-field>
-                                        </v-col>
-                                        <v-col
-                                            cols="12"
-                                            sm="12"
-                                            md="6"
-                                        >
-                                            <v-text-field
-                                                outlined
-                                                v-model="contact.phone"
-                                                label="Téléphone"
-                                            ></v-text-field>
-                                        </v-col>
-                                        <v-col
-                                            cols="12"
-                                            sm="12"
-                                            md="6"
-                                        >
-                                            <v-text-field
-                                                outlined
-                                                v-model="contact.town"
-                                                label="Ville"
-                                            ></v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12">
-                                            <v-menu
-                                                v-model="menu"
-                                                :nudge-right="40"
-                                                :close-on-content-click="false"
-                                                transition="scale-transition"
-                                                offset-y
-                                                min-width="auto"
+                                <v-card-text>
+                                    <v-container>
+                                        <v-row>
+                                            <v-col
+                                                cols="12"
+                                                sm="12"
+                                                md="6"
                                             >
-                                                <template v-slot:activator="{ on, attrs }">
                                                 <v-text-field
                                                     outlined
-                                                    v-model="contact.birthdate"
-                                                    label="Date de naissance"
-                                                    v-bind="attrs"
-                                                    v-on="on"
+                                                    v-model="contact.name"
+                                                    label="Nom"
                                                 ></v-text-field>
-                                                </template>
-                                                <v-date-picker
-                                                    v-model="contact.birthdate"
-                                                    @input="menu = false"
+                                            </v-col>
+                                            <v-col
+                                                cols="12"
+                                                sm="12"
+                                                md="6"
+                                            >
+                                                <v-text-field
+                                                    outlined
+                                                    v-model="contact.surname"
+                                                    label="Prénom"
+                                                ></v-text-field>
+                                            </v-col>
+                                            <v-col
+                                                cols="12"
+                                                sm="12"
+                                                md="6"
+                                            >
+                                                <v-text-field
+                                                    outlined
+                                                    v-model="contact.phone"
+                                                    label="Téléphone"
+                                                ></v-text-field>
+                                            </v-col>
+                                            <v-col
+                                                cols="12"
+                                                sm="12"
+                                                md="6"
+                                            >
+                                                <v-text-field
+                                                    outlined
+                                                    v-model="contact.town"
+                                                    label="Ville"
+                                                ></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="12">
+                                                <v-menu
+                                                    v-model="menu"
+                                                    :nudge-right="40"
+                                                    :close-on-content-click="false"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    min-width="auto"
                                                 >
-                                                </v-date-picker>
-                                            </v-menu>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-                            </v-card-text>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        outlined
+                                                        v-model="contact.birthdate"
+                                                        label="Date de naissance"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                    ></v-text-field>
+                                                    </template>
+                                                    <v-date-picker
+                                                        v-model="contact.birthdate"
+                                                        @input="menu = false"
+                                                    >
+                                                    </v-date-picker>
+                                                </v-menu>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-card-text>
 
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="dialogContact = false"
-                                >
-                                    Annuler
-                                </v-btn>
-                                <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="addContact()"
-                                >
-                                    Enregistrer
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="dialogContact = false"
+                                    >
+                                        Annuler
+                                    </v-btn>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="addContact()"
+                                    >
+                                        Enregistrer
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
                         </v-dialog>
                     </v-toolbar-items>
                 </v-toolbar>
@@ -160,6 +161,7 @@
     import axios from 'axios';
     import CalendarDialog from './Calendar-dialog.vue';
     import LoadingDialog from './Loader.vue';
+    import ImportContacts from './Import-contacts.vue';
     export default {
         props: ['id'],
         data () {
@@ -190,7 +192,7 @@
                 },
             }
         },
-        components: { PostContactsTable, CalendarDialog, LoadingDialog },
+        components: { PostContactsTable, CalendarDialog, LoadingDialog, ImportContacts },
         methods: {
             close(){
                 this.dialogContact = false;
@@ -206,6 +208,15 @@
             },
             updateContactsList(contacts){
                 this.contacts = contacts;
+            },
+            getUploadedContacts(contacts){
+                this.contacts = contacts;
+                console.log(contacts);
+                axios.post(`${server.address}/contacts/upload`, {contacts: this.contacts}).then(response=>{
+                    console.log(response);
+                }).catch(error =>{
+                    console.log(error);
+                })
             }
         },
         mounted(){

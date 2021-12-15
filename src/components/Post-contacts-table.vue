@@ -4,7 +4,7 @@
         <v-data-table
             :search="search"
             :headers="headers"
-            :items="allContacts"
+            :items="contacts"
             :single-expand="singleExpand"
             :expanded.sync="expanded"
             item-key="id"
@@ -141,6 +141,7 @@
                     <span>Supprimer</span>
                 </v-tooltip>
             </template> -->
+            
         </v-data-table>
         <!-- dialog delete start -->
             <!-- <v-dialog v-model="dialogDelete" max-width="500px">
@@ -178,14 +179,14 @@
                 singleExpand: true,
                 headers: [
                     {
-                        text: 'Noms',
+                        text: 'Noms et prénoms',
                         align: 'start',
                         value: 'name'
                     },
-                    { text: 'Prénoms', value: 'surname' },
+                    // { text: 'Prénoms', value: 'surname' },
                     { text: 'Villes', value: 'town' },
                     { text: 'Téléphones', value: 'phone' },
-                    { text: 'Date de naissance', value: 'birthdate' }
+                    // { text: 'Date de naissance', value: 'birthdate' }
                 ],
                 qualification: null,
                 observation: null,
@@ -218,6 +219,9 @@
                         console.log(error);
                     })
                 }
+            },
+            getUploadedContacts: function(){
+                return this.contacts;
             }
         }
     }
