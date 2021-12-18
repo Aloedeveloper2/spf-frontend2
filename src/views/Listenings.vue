@@ -4,9 +4,18 @@
     :items="listenings"
     sort-by="name"
     :search="search"
-    :loading="loading"
+    single-expand
+    :expanded.sync="expanded"
+    item-key="id"
+    show-expand
+    :loading="loadingTable"
     loading-text="Chargement... Veuillez patienter"
   >
+    <template v-slot:expanded-item="{ headers, item }">
+      <td :colspan="headers.length">
+        <audio :src="item.filePath" controls></audio>
+      </td>
+    </template>
     <template v-slot:top>
       <v-toolbar
         flat
@@ -57,7 +66,7 @@
                 Prise de contact
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note1" label="Note"></v-text-field>
+                    <v-text-field hint="Sur 4" dense outlined v-model="editedItem.note1" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -75,7 +84,7 @@
                 Présentation de l'objet
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note2" label="Note"></v-text-field>
+                    <v-text-field hint="sur 4" dense outlined v-model="editedItem.note2" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -90,10 +99,10 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                Traitement des objections
+                Traitement de l'appel
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note3" label="Note"></v-text-field>
+                    <v-text-field hint="Sur 10" dense outlined v-model="editedItem.note3" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -108,10 +117,10 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                Prise de congé
+                Traitement des objections
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note4" label="Note"></v-text-field>
+                    <v-text-field hint="Sur 4" dense outlined v-model="editedItem.note4" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -126,10 +135,10 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                Attitude générale
+                Prise de congé
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.note5" label="Note"></v-text-field>
+                    <v-text-field hint="Sur 6" dense outlined v-model="editedItem.note5" label="Note"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -144,9 +153,27 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+                Attitude générale
                 <v-row>
                   <v-col cols="auto" sm="4" md="4">
-                    <v-text-field dense outlined v-model="editedItem.finalNote" label="Note finale"></v-text-field>
+                    <v-text-field hint="Sur 12" persistent-hint dense outlined v-model="editedItem.note6" label="Note"></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="auto"
+                    sm="8"
+                    md="8"
+                  >
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="editedItem.comment6"
+                      label="Commentaire"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="auto" sm="4" md="4">
+                    <v-text-field hint="Sur 40" dense outlined v-model="editedItem.finalNote" label="Note finale"></v-text-field>
                   </v-col>
                   <v-col
                     cols="auto"
@@ -185,11 +212,11 @@
           </v-card>
         </v-dialog>
 <!-- user form end -->
-
+        
 <!-- dialog delete start -->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Veuillez-confirmer votre opération?</v-card-title>
+            <v-card-title class="text-h5">Veuillez-confirmer votre opération</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
@@ -199,16 +226,41 @@
           </v-card>
         </v-dialog>
 <!-- dialog delete end -->
-
+<!-- dialog upload start -->
+        <v-dialog v-model="dialogUpload" max-width="500px">
+          <v-card>
+            <v-card-title>
+              <v-file-input label="Fichier audio" outlined dense @change="handleFileUpload($event)">
+                <template v-slot:selection="{ text }">
+                  <v-chip small label color="primary">
+                    {{ text }}
+                  </v-chip>
+                </template>
+              </v-file-input>
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialogUpload = false">Annuler</v-btn>
+              <v-btn color="blue darken-1" text @click="uploadConfirm">Confirmer</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+<!-- dialog upload end -->
+        <LoadingDialog :loading='loading' message="Envoi des informations" />
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon
-        small
         class="mr-2"
         @click="deleteItem(item)"
       >
         mdi-delete
+      </v-icon>
+      <v-icon
+        @click="getListeningId(item)"
+      >
+        mdi-file-upload
       </v-icon>
     </template>
     <template v-slot:no-data>
@@ -225,26 +277,34 @@
 <script>
   import axios from 'axios';
   import server from '../config/address';
+  import LoadingDialog from '../components/Loader.vue';
   export default {
     data: () => ({
+      expanded  : [],
+      loading: false,
       dialog: false,
       dialogDelete: false,
-      loading: false,
+      dialogUpload: false,
+      file: '',
+      listeningId: null,
+      loadingTable: true,
       search: '',
       headers: [
         { text: 'Postes', value: 'post' },
         { text: 'PC/Note', value: 'note1'},
-        { text: 'PC/Comment', value: 'comment1'},
+        { text: 'PC/Com', value: 'comment1'},
         { text: 'PO/Note', value: 'note2'},
-        { text: 'PO/Comment', value: 'comment2'},
-        { text: 'TO/Note', value: 'note3'},
-        { text: 'TO/Comment', value: 'comment3'},
-        { text: 'Congé/Note', value: 'note4'},
-        { text: 'Congé/Comment', value: 'comment4'},
-        { text: 'AG/Note', value: 'note5'},
-        { text: 'AG/Comment', value: 'comment5'},
-        { text: 'Note finale', value: 'finalNote'},
-        { text: 'Observations', value: 'observation' },
+        { text: 'PO/Com', value: 'comment2'},
+        { text: 'TA/Note', value: 'note3'},
+        { text: 'TA/Com', value: 'comment3'},
+        { text: 'TO/Note', value: 'note4'},
+        { text: 'TO/Com', value: 'comment4'},
+        { text: 'Congé/Note', value: 'note5'},
+        { text: 'Congé/Com', value: 'comment5'},
+        { text: 'AG/Note', value: 'note6'},
+        { text: 'AG/Com', value: 'comment6'},
+        { text: 'NF', value: 'finalNote'},
+        { text: 'Obs', value: 'observation' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
       listenings: [],
@@ -280,7 +340,7 @@
         observation: '',
       },
     }),
-
+    components: { LoadingDialog },
     watch: {
       dialog (val) {
         val || this.close()
@@ -298,6 +358,7 @@
       initialize () {
         axios.get(`${server.address}/listening`).then(response =>{
           this.listenings = response.data;
+          this.loadingTable = false;
         }).catch(error =>{
           console.log(error);
         })
@@ -312,6 +373,32 @@
       deleteItemConfirm () {
         this.listenings.splice(this.editedIndex, 1)
         this.closeDelete()
+      },
+
+      handleFileUpload(event){
+        this.file = event;
+      },
+
+      getListeningId(item){
+        this.dialogUpload = true;
+        this.listeningId = this.listeningId ? this.listeningId : item.id;
+      },
+
+      uploadConfirm () {
+        let formData = new FormData();
+        formData.append('file', this.file);
+        this.loading = true;
+        axios.post(`${server.address}/listening/${this.listeningId}/file`, formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+        }).then(response =>{
+          console.log(response);
+          this.loading = false;
+          this.dialogUpload = false;
+        }).catch(error =>{
+          console.log(error);
+        })
       },
 
       close () {
@@ -331,9 +418,12 @@
       },
 
       save () {
-        axios.post(`${server.address}/listening`, {data: this.editedItem}).then(() =>{
+        this.loading = true;
+        axios.post(`${server.address}/listening`, {data: this.editedItem}).then((response) =>{
           this.listenings.push(this.editedItem);
           this.close();
+          this.loading = false;
+          this.listeningId = response.data.id;
         }).catch(error =>{
           console.log(error);
         })

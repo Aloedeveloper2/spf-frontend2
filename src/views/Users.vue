@@ -4,9 +4,17 @@
     :items="lists"
     sort-by="name"
     :search="search"
-    :loading="loading"
+    :loading="loadingTable"
     loading-text="Chargement... Veuillez patienter"
   >
+    <template v-slot:[`item.type`]="{ item }">
+      <v-chip
+        :color="getColor(item.type)"
+        dark
+      >
+        {{ item.type }}
+      </v-chip>
+    </template>
     <template v-slot:top>
       <v-toolbar
         flat
@@ -146,7 +154,7 @@
           </v-card>
         </v-dialog>
 <!-- dialog delete end -->
-
+        <LoadingDialog :loading='loading' message="Envoi des informations" />
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
@@ -190,11 +198,13 @@
 <script>
   import axios from 'axios';
   import server from '../config/address';
+  import LoadingDialog from '../components/Loader.vue';
   export default {
     data: () => ({
       dialog: false,
       dialogDelete: false,
-      loading: true,
+      loadingTable: true,
+      loading: false,
       search: '',
       items: ['Télévendeur', 'Administrateur'],
       headers: [
@@ -224,7 +234,7 @@
         type: ''
       },
     }),
-
+    components: { LoadingDialog },
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'Nouvel utilisateur' : 'Modifier un utilisateur';
@@ -248,7 +258,7 @@
       initialize () {
         axios.get(`${server.address}/user`).then(response =>{
           this.lists = response.data;
-          this.loading = false;
+          this.loadingTable = false;
         }).catch(error =>{
           console.log(error);
         })
@@ -257,7 +267,7 @@
       editItem (item) {
         this.editedIndex = this.lists.indexOf(item)
         this.editedItem = Object.assign({}, item)
-        this.dialog = true
+        this.dialog = true;
       },
 
       deleteItem (item) {
@@ -272,7 +282,6 @@
           this.closeDelete()
         }).catch(error =>{
           console.log(error);
-          this.closeDelete();
         })
       },
 
@@ -293,10 +302,12 @@
       },
 
       save () {
+        this.loading = true;
         if (this.editedIndex > -1) {
           axios.put(`${server.address}/user/${this.editedItem.id}`, {data: this.editedItem}).then(()=>{
             Object.assign(this.lists[this.editedIndex], this.editedItem)
             this.close();
+            this.loading = false;
           }).catch(error=>{
             console.log(error);
           })
@@ -304,11 +315,16 @@
           axios.post(`${server.address}/user/register`, {data: this.editedItem}).then(() =>{
             this.lists.push(this.editedItem);
             this.close();
+            this.loading = false;
           }).catch(error =>{
             console.log(error);
           })
         }
       },
+      getColor (type) {
+        if (type == "Télévendeur") return 'orange'
+        else return 'purple'
+      }
     },
   }
 </script>

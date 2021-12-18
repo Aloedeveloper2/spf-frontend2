@@ -9,6 +9,8 @@
       :sort-desc="sortDesc"
       hide-default-footer
     >
+    
+      <!-- Header -->
       <template v-slot:header>
         <v-toolbar
           dark
@@ -55,6 +57,8 @@
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
+            <v-spacer></v-spacer>       
+            <TotalSheet :projects="projects"/>     
             <v-spacer></v-spacer>
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
@@ -80,6 +84,7 @@
         </v-toolbar>
       </template>
 
+      <!-- calls qualification -->
       <template v-slot:default="props">
         <v-row>
           <v-col
@@ -117,7 +122,7 @@
           </v-col>
         </v-row>
       </template>
-
+      <!-- Footer -->
       <template v-slot:footer>
         <v-row
           class="mt-2"
@@ -179,15 +184,19 @@
         </v-row>
       </template>
     </v-data-iterator>
+    <LoadingDialog :loading='loading' :message="loadingMessage" />
   </v-container>
 </template>
 
 <script>
   import axios from 'axios'
   import server from '../config/address';
+  import LoadingDialog from '../components/Loader.vue';
+  import TotalSheet from '../components/Total-sheet.vue';
     export default {
         data () {
             return {
+            loadingMessage: "",
             itemsPerPageArray: [4, 8, 12],
             search: '',
             filter: {},
@@ -195,6 +204,7 @@
             page: 1,
             itemsPerPage: 4,
             sortBy: 'poste',
+            loading: false,
             keys: [
               { text: 'Poste', value: 'post'},
               { text: 'Argumentaires', value: 'argument'},
@@ -209,9 +219,13 @@
             sheets: [],
           }
         },
+        components: { LoadingDialog, TotalSheet },
         mounted(){
+          this.loadingMessage = "Chargement des projets"
+          this.loading = true;
           axios.get(`${server.address}/project`).then(response =>{
             this.projects = response.data;
+            this.loading = false;
           }).catch(error =>{
             console.log(error);
           })
@@ -234,9 +248,12 @@
             updateItemsPerPage (number) {
                 this.itemsPerPage = number
             },
-            getProjectSheets(id){
-              axios.get(`${server.address}/sheet/${id}`).then(response =>{
+            getProjectSheets(projectId){
+              this.loadingMessage = "Chargement des fiches";
+              this.loading = true;
+              axios.get(`${server.address}/sheet/${projectId}`).then(response =>{
                 this.sheets = response.data;
+                this.loading = false;
               }).catch(error =>{
                 console.log(error);
               })

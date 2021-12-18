@@ -35,6 +35,17 @@
                                                     label="Intitulé"
                                                 ></v-text-field>
                                             </v-col>
+                                            <v-col
+                                                cols="12"
+                                                sm="12"
+                                            >
+                                                <v-text-field
+                                                    prepend-inner-icon="mdi-calendar-text"
+                                                    outlined
+                                                    v-model="event.details"
+                                                    label="Détails"
+                                                ></v-text-field>
+                                            </v-col>
                                             <v-col cols="12" sm="12">
                                                 <v-menu
                                                     v-model="menuDate"
@@ -96,15 +107,18 @@
                 </v-card-text>
             </v-card>
         </template>
+        <LoadingDialog :loading='loading' message="Envoi du rendez-vous" />
     </v-dialog>
 </template>
 
 <script>
     import axios from 'axios';
-    import config from '../config/address';
+    import server from '../config/address';
+    import LoadingDialog from './Loader.vue';
     export default {
         data () {
             return {
+                loading: false,
                 menuDate: false,
                 menuHour: false,
                 dialog: false,
@@ -112,24 +126,26 @@
                     name: "",
                     date: "",
                     hour: "",
+                    details: ""
                 },
             }
         },
+        components: { LoadingDialog },
         methods: {
             save(){
-                axios.post(`${config.address}/events`, {
+                this.loading = true;
+                axios.post(`${server.address}/events`, {
                     name: this.event.name,
                     start: this.event.date+" "+this.event.hour,
+                    details: this.event.details,
                     post: this.$route.params.id
                 }).then(() =>{
+                    this.loading = false;
                     window.location.reload();
                 }).catch(error =>{
                     console.log(error);
                 })
             }
-        },
-        mounted(){
-            
         }
     }
 </script>

@@ -6,8 +6,8 @@
                     {{text}}
                 </div>
                 <v-list-item-title class="headline mb-1">
-                    {{orders}}
-                    <v-btn class="float-right " outlined rounded text>
+                    {{calls}}
+                    <v-btn class="float-right " outlined rounded text @click="updateDashboardData()">
                     Voir <v-icon right dark>mdi-chart-bar</v-icon>
                     </v-btn>
                 </v-list-item-title>
@@ -18,7 +18,12 @@
 
 <script>
     export default {
-        props: ['color', 'text','orders']
+        props: ['color', 'text','calls', 'dashboardData'],
+        methods:{
+            updateDashboardData(){
+                this.$emit('send-dashboard-data', this.dashboardData);
+            }
+        }
     }
 </script>
 
