@@ -1,5 +1,5 @@
 export default {
-    address: "http://localhost:5000",
+    address: "http://bissa.aloe-odoo.com/:5000",
     headers: {
         authorization: localStorage.getItem('token')
     }
