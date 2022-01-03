@@ -34,7 +34,6 @@
                         :items="posts"
                         :single-select="singleSelect"
                         hide-default-header
-                        hide-default-footer
                         item-key="name"
                         show-select
                         class="elevation-1"
