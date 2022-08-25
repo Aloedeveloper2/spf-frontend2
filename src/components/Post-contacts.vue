@@ -36,7 +36,7 @@
                             v-model="dialogContact"
                             max-width="500px"
                         >
-                            <template v-slot:activator="{ on, attrs }" v-if="userType != 'Télévendeur'">
+                            <template v-slot:activator="{ on, attrs }">
                                 <v-btn
                                     dark
                                     text
