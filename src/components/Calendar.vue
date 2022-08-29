@@ -2,9 +2,7 @@
     <v-row class="fill-height">
         <v-col>
             <v-sheet height="64">
-                <v-toolbar
-                    flat
-                >
+                <v-toolbar flat>
                     <v-btn
                         outlined
                         class="mr-4"
@@ -13,37 +11,18 @@
                     >
                         Aujourd'hui
                     </v-btn>
-                    <v-btn
-                        fab
-                        text
-                        small
-                        color="grey darken-2"
-                        @click="prev"
-                    >
-                        <v-icon small>
-                            mdi-chevron-left
-                        </v-icon>
+                    <v-btn fab text small color="grey darken-2" @click="prev">
+                        <v-icon small> mdi-chevron-left </v-icon>
                     </v-btn>
-                    <v-btn
-                        fab
-                        text
-                        small
-                        color="grey darken-2"
-                        @click="next"
-                    >
-                        <v-icon small>
-                            mdi-chevron-right
-                        </v-icon>
+                    <v-btn fab text small color="grey darken-2" @click="next">
+                        <v-icon small> mdi-chevron-right </v-icon>
                     </v-btn>
                     <v-toolbar-title v-if="$refs.calendar">
                         {{ $refs.calendar.title }}
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
                     <CalendarNewEvent />
-                    <v-menu
-                        bottom
-                        right
-                    >
+                    <v-menu bottom right>
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
                                 outlined
@@ -52,9 +31,7 @@
                                 v-on="on"
                             >
                                 <span>{{ typeToLabel[type] }}</span>
-                                <v-icon right>
-                                mdi-menu-down
-                                </v-icon>
+                                <v-icon right> mdi-menu-down </v-icon>
                             </v-btn>
                         </template>
                         <v-list>
@@ -90,27 +67,45 @@
                     :activator="selectedElement"
                     offset-x
                 >
-                    <v-card
-                        color="grey lighten-4"
-                        min-width="350px"
-                        flat
-                    >
-                        <v-toolbar
-                            :color="selectedEvent.color"
-                            dark
-                        >
+                    <v-card color="grey lighten-4" min-width="350px" flat>
+                        <v-toolbar :color="selectedEvent.color" dark>
                             <v-btn icon @click="deleteEvent(selectedEvent)">
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
-                            <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+                            <v-toolbar-title
+                                v-html="selectedEvent.name"
+                            ></v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-menu :nudge-width="200" offset-x>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn dark v-bind="attrs" v-on="on" icon>
+                                        <v-icon>mdi-file-music</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-card-text>
+                                        <v-file-input
+                                            label="Fichier audio"                                            
+                                            outlined
+                                            dense
+                                            prepend-inner-icon="mdi-file-music"
+                                            prepend-icon=""
+                                        ></v-file-input>
+                                        <v-btn block color="primary" @click="uploadFile"><v-icon left>mdi-upload</v-icon> Envoyer</v-btn>
+                                    </v-card-text>
+                                </v-card>
+                            </v-menu>
                         </v-toolbar>
                         <v-card-text>
+                            <p>
+                                <audio src="" controls></audio>
+                            </p>
                             <span v-html="selectedEvent.details"></span>
                         </v-card-text>
                         <v-card-actions>
                             <v-btn
                                 text
-                                color="secondary"
+                                color="error"
                                 @click="selectedOpen = false"
                             >
                                 Fermer
@@ -120,97 +115,111 @@
                 </v-menu>
             </v-sheet>
         </v-col>
-        <LoadingDialog :loading='loading' message="Chargement des rendez-vous" />
-        <Notification :notification="alert" :message="messageNotification"/>
+        <LoadingDialog
+            :loading="loading"
+            message="Chargement des rendez-vous"
+        />
+        <Notification :notification="alert" :message="messageNotification" />
     </v-row>
 </template>
 
 <script>
-    import axios from 'axios';
-    import server from '../config/address';
-    import CalendarNewEvent from './Calendar-new-event.vue';
-    import LoadingDialog from './Loader.vue';
-    import Notification from './Notification.vue';
-    export default {
-        data: () => ({
-            messageNotification: "",
-            alert: false,
-            loading: false,
-            focus: '',
-            type: 'month',
-            typeToLabel: {
-                month: 'Mois',
-                week: 'Semaine',
-                day: 'Jour'
-            },
-            selectedEvent: {},
-            selectedElement: null,
-            selectedOpen: false,
-            events: [],
-        }),
-        components: { CalendarNewEvent, LoadingDialog, Notification},
-        mounted () {
-            this.$refs.calendar.checkChange()
+import axios from "axios";
+import server from "../config/address";
+import CalendarNewEvent from "./Calendar-new-event.vue";
+import LoadingDialog from "./Loader.vue";
+import Notification from "./Notification.vue";
+export default {
+    data: () => ({
+        audioFile: null,
+        messageNotification: "",
+        alert: false,
+        loading: false,
+        focus: "",
+        type: "month",
+        typeToLabel: {
+            month: "Mois",
+            week: "Semaine",
+            day: "Jour",
         },
-        methods: {
-            viewDay ({ date }) {
-                this.focus = date
-                this.type = 'day'
-            },
-            getEventColor (event) {
-                return event.color
-            },
-            setToday () {
-                this.focus = ''
-            },
-            prev () {
-                this.$refs.calendar.prev()
-            },
-            next () {
-                this.$refs.calendar.next()
-            },
-            showEvent ({ nativeEvent, event }) {
-                const open = () => {
-                    this.selectedEvent = event
-                    this.selectedElement = nativeEvent.target
-                    requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
-                }
+        selectedEvent: {},
+        selectedElement: null,
+        selectedOpen: false,
+        events: [],
+    }),
+    components: { CalendarNewEvent, LoadingDialog, Notification },
+    mounted() {
+        this.$refs.calendar.checkChange();
+    },
+    methods: {
+        viewDay({ date }) {
+            this.focus = date;
+            this.type = "day";
+        },
+        getEventColor(event) {
+            return event.color;
+        },
+        setToday() {
+            this.focus = "";
+        },
+        prev() {
+            this.$refs.calendar.prev();
+        },
+        next() {
+            this.$refs.calendar.next();
+        },
+        showEvent({ nativeEvent, event }) {
+            const open = () => {
+                this.selectedEvent = event;
+                this.selectedElement = nativeEvent.target;
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => (this.selectedOpen = true))
+                );
+            };
 
-                if (this.selectedOpen) {
-                    this.selectedOpen = false
-                    requestAnimationFrame(() => requestAnimationFrame(() => open()))
-                } else {
-                    open()
-                }
+            if (this.selectedOpen) {
+                this.selectedOpen = false;
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => open())
+                );
+            } else {
+                open();
+            }
 
-                nativeEvent.stopPropagation()
-            },
-            updateRange () {
-                // get all events
-                this.loading = true;
-                axios.get(`${server.address}/events/${this.$route.params.id}`).then(response =>{
+            nativeEvent.stopPropagation();
+        },
+        updateRange() {
+            // get all events
+            this.loading = true;
+            axios
+                .get(`${server.address}/events/${this.$route.params.id}`)
+                .then((response) => {
                     this.events = response.data[0];
                     this.loading = false;
-                }).catch(error =>{
-                    console.log(error);
                 })
-            },
-            deleteEvent(event){
-                this.loading = true;
-                axios.delete(`${server.address}/events/${this.$route.params.id}/${event._id}`).then(response =>{
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        deleteEvent(event) {
+            this.loading = true;
+            axios
+                .delete(
+                    `${server.address}/events/${this.$route.params.id}/${event._id}`
+                )
+                .then((response) => {
                     let eventIndex = this.events.indexOf(event);
                     this.events.splice(eventIndex, 1);
                     this.loading = false;
                     this.alert = true;
                     this.messageNotification = response.data;
-                }).catch(error =>{
-                    console.log(error);
                 })
-            }
+                .catch((error) => {
+                    console.log(error);
+                });
         },
-    }
+    },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
