@@ -76,7 +76,7 @@
                                 v-html="selectedEvent.name"
                             ></v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-menu :nudge-width="200" offset-x>
+                            <v-menu v-model="uploadDialog" :nudge-width="200" offset-x :close-on-content-click="false">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn dark v-bind="attrs" v-on="on" icon>
                                         <v-icon>mdi-file-music</v-icon>
@@ -87,11 +87,13 @@
                                         <v-file-input
                                             label="Fichier audio"                                            
                                             outlined
+                                            accept=".mp3"
                                             dense
                                             prepend-inner-icon="mdi-file-music"
                                             prepend-icon=""
+                                            v-model="audioFile"
                                         ></v-file-input>
-                                        <v-btn block color="primary" @click="uploadFile"><v-icon left>mdi-upload</v-icon> Envoyer</v-btn>
+                                        <v-btn block color="primary" @click="uploadFile(selectedEvent._id)"><v-icon left>mdi-upload</v-icon> Envoyer</v-btn>
                                     </v-card-text>
                                 </v-card>
                             </v-menu>
@@ -131,6 +133,7 @@ import LoadingDialog from "./Loader.vue";
 import Notification from "./Notification.vue";
 export default {
     data: () => ({
+        uploadDialog: false,
         audioFile: null,
         messageNotification: "",
         alert: false,
@@ -152,6 +155,20 @@ export default {
         this.$refs.calendar.checkChange();
     },
     methods: {
+        uploadFile(eventId){
+            let formData = new FormData();
+            formData.append("audio", this.audioFile);
+            this.loading = true;
+            axios.put(`${server.address}/events/${this.$route.params.id}/${eventId}`, formData).then(resp=>{
+                console.log(resp);
+                this.loading = false;
+                this.uploadDialog = false;
+            }).catch(err=>{
+                console.log(err);
+                this.loading = false;
+                this.uploadDialog = false;
+            })
+        },
         viewDay({ date }) {
             this.focus = date;
             this.type = "day";
