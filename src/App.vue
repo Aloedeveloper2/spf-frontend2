@@ -93,7 +93,7 @@
         class="text-center"
         cols="12"
       >
-        <i>Copyright © {{ new Date().getFullYear() }} — Aloe Sytems</i>
+        <i>Copyright © {{ new Date().getFullYear() }} — AloeFintech</i>
       </v-col>
     </v-footer>
   </v-app>

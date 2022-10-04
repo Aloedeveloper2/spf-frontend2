@@ -15,6 +15,7 @@
                     <v-btn
                         id="floating-btn"
                         color="teal accent-4"
+                        class="mb-10"
                         dark
                         fixed
                         bottom

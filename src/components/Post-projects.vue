@@ -1,14 +1,14 @@
 <template>
     <v-row id="post-project-row">
         <v-col cols="auto" v-for="(project, i) in projects" :key="i">
-            <v-card color="teal accent-4" dark>
+            <v-card color="teal accent-4" dark width="150">
                 <div class="d-flex flex-no-wrap justify-space-between">
                     <div>
                         <v-card-title>{{project.projectId.name}}</v-card-title>
                         <v-card-actions>
                             <v-btn
                                 icon
-                                @click="getProject(project)"
+                                @click="getProject(project)" class="mr-3"
                             >
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>

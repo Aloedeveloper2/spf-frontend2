@@ -75,7 +75,7 @@
                             <v-toolbar-title
                                 v-html="selectedEvent.name"
                             ></v-toolbar-title>
-                            <v-spacer></v-spacer>
+                            <!-- <v-spacer></v-spacer>
                             <v-menu v-model="uploadDialog" :nudge-width="200" offset-x :close-on-content-click="false">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn dark v-bind="attrs" v-on="on" icon>
@@ -96,7 +96,7 @@
                                         <v-btn block color="primary" @click="uploadFile(selectedEvent._id)"><v-icon left>mdi-upload</v-icon> Envoyer</v-btn>
                                     </v-card-text>
                                 </v-card>
-                            </v-menu>
+                            </v-menu> -->
                         </v-toolbar>
                         <v-card-text>
                             <p>
@@ -155,7 +155,7 @@ export default {
         this.$refs.calendar.checkChange();
     },
     methods: {
-        uploadFile(eventId){
+        /* uploadFile(eventId){
             let formData = new FormData();
             formData.append("audio", this.audioFile);
             this.loading = true;
@@ -168,7 +168,7 @@ export default {
                 this.loading = false;
                 this.uploadDialog = false;
             })
-        },
+        }, */
         viewDay({ date }) {
             this.focus = date;
             this.type = "day";

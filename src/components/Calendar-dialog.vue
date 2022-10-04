@@ -15,6 +15,7 @@
         </template>
         <template>
             <v-card>
+                <v-card-title><v-btn><v-icon>mdi-close-circle</v-icon></v-btn></v-card-title>
                 <v-card-text>
                     <Calendar />
                 </v-card-text>

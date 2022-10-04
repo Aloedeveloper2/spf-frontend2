@@ -1,15 +1,12 @@
 <template>
-    <v-card
-        color="teal accent-4"
-        dark
-    >
+    <v-card color="teal accent-4" dark width="250">
         <div class="d-flex flex-no-wrap justify-space-between">
             <div>
                 <v-card-title
                     class="text-h5"
                     v-text="project.name"
                 ></v-card-title>
-                
+
                 <v-card-actions>
                     <a :href="project.path" target="_blank">
                         <v-btn
@@ -20,12 +17,10 @@
                             right
                             width="40px"
                         >
-                            <v-icon>
-                                mdi-open-in-new
-                            </v-icon>
+                            <v-icon> mdi-open-in-new </v-icon>
                         </v-btn>
                     </a>
-                    <project-post-list :id="project.id"/>
+                    <project-post-list :id="project.id" />
                 </v-card-actions>
             </div>
         </div>
@@ -33,14 +28,12 @@
 </template>
 
 <script>
-    import ProjectPostList from './Project-post-list.vue';
-    export default {
-        name:'Project-card',
-        props: ['project'],
-        components: { ProjectPostList }
-    }
+import ProjectPostList from "./Project-post-list.vue";
+export default {
+    name: "Project-card",
+    props: ["project"],
+    components: { ProjectPostList },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

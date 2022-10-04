@@ -20,7 +20,10 @@
                     class="title"
                     color="red"
                     dark
-                >Nouveau rendez-vous</v-toolbar>
+                >Nouveau rendez-vous
+                <v-spacer></v-spacer>
+                <v-btn icon dark @click="dialog = false"><v-icon>mdi-close-circle</v-icon></v-btn>
+                </v-toolbar>
                 <v-card-text>
                     <v-container>
                         <v-row>

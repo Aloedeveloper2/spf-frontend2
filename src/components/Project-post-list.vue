@@ -3,6 +3,7 @@
         transition="dialog-top-transition"
         max-width="600"
         v-model="dialog"
+        scrollable
     >
         <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -26,7 +27,9 @@
                 <v-toolbar
                     color="primary"
                     dark
-                >Liste des postes</v-toolbar>
+                ><v-card-title><v-icon left>
+                    mdi-headset
+                </v-icon> Liste des postes</v-card-title></v-toolbar>
                 <v-card-text>
                     <v-data-table
                         v-model="selected"
